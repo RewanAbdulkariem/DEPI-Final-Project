@@ -1,0 +1,15 @@
+{
+	"id": "078ee445-3509-480d-87ae-711bcd5c99cc",
+	"name": "Local",
+	"values": [
+		{
+			"key": "BaseURL",
+			"value": "http://localhost/opencart/index.php?route=",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-11-04T01:32:16.581Z",
+	"_postman_exported_using": "Postman/11.70.0"
+}
