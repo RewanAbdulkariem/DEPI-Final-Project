@@ -16,8 +16,6 @@ public class LoginSteps {
     private LoginPage loginPage;
 
     private void setupDriver() {
-        // You would normally use WebDriverManager or similar here
-        // System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
         this.driver = new ChromeDriver();
         this.driver.manage().window().maximize();
         this.driver.get("http://localhost/OpenCart/");
@@ -25,7 +23,6 @@ public class LoginSteps {
 
     @Given("the user is on the login page")
     public void the_user_is_on_the_login_page() {
-        // Initialize the driver and navigate
         setupDriver();
         homePage = new HomePage(driver);
         homePage.clickAccountIcon();
@@ -34,7 +31,6 @@ public class LoginSteps {
 
     @When("the user logs in with {string} and {string}")
     public void the_user_logs_in_with_and(String email, String password) {
-        // Use the methods from the LoginPage
         loginPage.enterEmail(email);
         loginPage.enterPassword(password);
         loginPage.clickLogin();
