@@ -32,7 +32,7 @@ public class LoginSteps {
 
     @Then("the user should see the home page")
     public void the_user_should_see_the_home_page() {
-        String expectedUrl = "http://localhost/OpenCart/index.php?route=account/account";
+        String expectedUrl = "route=account/account";
         String actualUrl = driver.getCurrentUrl();
 
         Assert.assertTrue(actualUrl.contains(expectedUrl), "Login failed. Expected URL to contain: " + expectedUrl + " but got: " + actualUrl);

@@ -8,7 +8,7 @@ public class LoginPage extends HelpFunctions {
 
     private By emailField = By.id("input-email");
     private By passwordField = By.id("input-password");
-    private By loginBtn = By.cssSelector("input[value='Login']");
+    private By loginBtn = By.xpath("//button[contains(@class,'btn-primary')]");
 
     public LoginPage(WebDriver driver){
         super(driver);
