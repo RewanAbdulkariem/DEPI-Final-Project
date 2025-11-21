@@ -33,7 +33,13 @@ public class HelpFunctions {
         element.sendKeys(text);
     }
 
+
     public String getText(By locator){
         return waitForElement(locator).getText();
     }
+
+    public void clickByIndex(By locator, int index) {
+        driver.findElements(locator).get(index).click();
+    }
+
 }

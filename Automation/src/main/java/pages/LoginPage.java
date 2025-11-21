@@ -22,7 +22,8 @@ public class LoginPage extends HelpFunctions {
         sendText(passwordField, password);
     }
 
-    public void clickLogin(){
+    public AccountPage clickLogin(){
         click(loginBtn);
+        return new AccountPage(driver);
     }
 }

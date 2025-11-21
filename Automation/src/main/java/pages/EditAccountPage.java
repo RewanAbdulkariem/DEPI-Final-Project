@@ -14,11 +14,13 @@ public class EditAccountPage extends HelpFunctions {
     By continueBtn = By.xpath("//input[@value='Continue']");
     By backBtn = By.linkText("Back");
 
+    By successMsg = By.cssSelector("div[class*=\"alert-success\"]");
 
     public EditAccountPage(WebDriver driver) {
         super(driver);
     }
 
+    // -------------------- Setters --------------------
     public void enterFirstname(String firstname){
         sendText(firstnameField, firstname);
     }
@@ -35,11 +37,29 @@ public class EditAccountPage extends HelpFunctions {
         sendText(telephoneField, telephone);
     }
 
-    public void clickContinue(){
+    // -------------------- Buttons --------------------
+    public AccountPage clickContinue(){
         click(continueBtn);
+        return new AccountPage(driver);
+
     }
 
-    public void clickBack(){
+    public AccountPage clickBack(){
         click(backBtn);
+        return new AccountPage(driver);
     }
+
+    // -------------------- Verification --------------------
+    public boolean isSuccessMessageDisplayed() {
+        return waitForElement(successMsg).isDisplayed();
+    }
+
+    public String getFirstName(){
+        return waitForElement(firstnameField).getAttribute("value");
+    }
+
+    public String getLastName(){
+        return waitForElement(lastnameField).getAttribute("value");
+    }
+
 }
