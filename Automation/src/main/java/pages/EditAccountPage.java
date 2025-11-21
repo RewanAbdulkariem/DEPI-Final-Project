@@ -9,10 +9,12 @@ public class EditAccountPage extends HelpFunctions {
     private By firstnameField = By.id("input-firstname");
     private By lastnameField = By.id("input-lastname");
     private By emailField = By.id("input-email");
-    private By telephoneField = By.id("input-telephone");
 
     private By continueBtn = By.xpath("//button[contains(@class,'btn-primary')]");
     private By backBtn = By.linkText("Back");
+
+    private By errorMsg = By.xpath("//div[contains(@class,'invalid-feedback') and contains(@class,'d-block')]");
+    private By successMsg = By.cssSelector("div[class*=\"alert-success\"]");
 
     public EditAccountPage(WebDriver driver) {
         super(driver);
@@ -31,15 +33,9 @@ public class EditAccountPage extends HelpFunctions {
         sendText(emailField, email);
     }
 
-    public void enterTelephone(String telephone){
-        sendText(telephoneField, telephone);
-    }
-
     // -------------------- Buttons --------------------
-    public AccountPage clickContinue(){
+    public void clickContinue(){
         click(continueBtn);
-        return new AccountPage(driver);
-
     }
 
     public AccountPage clickBack(){
@@ -56,4 +52,10 @@ public class EditAccountPage extends HelpFunctions {
         return waitForElement(lastnameField).getAttribute("value");
     }
 
+    public String getErrorMessage(){
+        return getText(errorMsg);
+    }
+    public boolean isSuccessMessageDisplayed() {
+        return waitForElement(successMsg).isDisplayed();
+    }
 }

@@ -15,8 +15,6 @@ public class AccountPage extends HelpFunctions {
     private By addressBookLink = By.cssSelector("a[href*='route=account/address']");
     private By modifyWishlistLink = By.cssSelector("a[href*='route=account/wishlist']") ;
 
-    private By successMsg = By.cssSelector("div[class*=\"alert-success\"]");
-
     public AccountPage(WebDriver driver) {
         super(driver);
     }
@@ -45,7 +43,5 @@ public class AccountPage extends HelpFunctions {
         click(modifyWishlistLink);
         return new WishListPage(driver);
     }
-    public boolean isSuccessMessageDisplayed() {
-        return waitForElement(successMsg).isDisplayed();
-    }
+
 }
