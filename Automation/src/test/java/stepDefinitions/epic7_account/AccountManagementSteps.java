@@ -52,7 +52,7 @@ public class AccountManagementSteps {
 
     @Then("a success message should be displayed")
     public void a_success_message_should_be_displayed() {
-        boolean isDisplayed = editAccountPage.isSuccessMessageDisplayed();
+        boolean isDisplayed = accountPage.isSuccessMessageDisplayed();
         Assert.assertTrue(isDisplayed, "Success message was NOT displayed!");
     }
 
