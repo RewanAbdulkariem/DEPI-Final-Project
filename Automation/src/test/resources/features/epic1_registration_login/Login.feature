@@ -3,4 +3,4 @@ Feature: Login
   Scenario: Successful login with valid credentials
     Given the user is on the login page
     When the user logs in with "admin@gmail.com" and "123456"
-    Then the user should see the home page
+    Then the user should see the account page

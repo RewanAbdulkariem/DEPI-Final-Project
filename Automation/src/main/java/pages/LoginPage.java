@@ -24,6 +24,7 @@ public class LoginPage extends HelpFunctions {
 
     public AccountPage clickLogin(){
         click(loginBtn);
+        waitForUrlContains("route=account/account");
         return new AccountPage(driver);
     }
 }

@@ -22,6 +22,9 @@ public class HelpFunctions {
     public WebElement waitForElement(By locator){
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+    public void waitForUrlContains(String partialUrl) {
+        wait.until(ExpectedConditions.urlContains(partialUrl));
+    }
 
     public void click(By locator) {
         waitForElement(locator).click();

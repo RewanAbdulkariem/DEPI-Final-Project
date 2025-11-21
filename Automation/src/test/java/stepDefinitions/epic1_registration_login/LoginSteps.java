@@ -30,8 +30,8 @@ public class LoginSteps {
         loginPage.clickLogin();
     }
 
-    @Then("the user should see the home page")
-    public void the_user_should_see_the_home_page() {
+    @Then("the user should see the account page")
+    public void the_user_should_see_the_account_page() {
         String expectedUrl = "route=account/account";
         String actualUrl = driver.getCurrentUrl();
 

@@ -11,7 +11,7 @@ public class EditAccountPage extends HelpFunctions {
     private By emailField = By.id("input-email");
     private By telephoneField = By.id("input-telephone");
 
-    private By continueBtn = By.xpath("//input[@value='Continue']");
+    private By continueBtn = By.xpath("//button[contains(@class,'btn-primary')]");
     private By backBtn = By.linkText("Back");
 
     public EditAccountPage(WebDriver driver) {

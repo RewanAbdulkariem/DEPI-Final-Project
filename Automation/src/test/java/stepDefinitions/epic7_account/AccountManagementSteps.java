@@ -8,13 +8,9 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import pages.AccountPage;
 import pages.EditAccountPage;
-import pages.HomePage;
-import pages.LoginPage;
 
 public class AccountManagementSteps {
     private WebDriver driver = Hooks.driver;
-    private HomePage homePage;
-    private LoginPage loginPage;
     private AccountPage accountPage;
     private EditAccountPage editAccountPage;
 
@@ -22,18 +18,9 @@ public class AccountManagementSteps {
     private String expectedFirst;
     private String expectedLast;
 
-    @Given("the user is logged in with {string} and {string}")
-    public void the_user_is_logged_in(String email, String password){
-        homePage = new HomePage(driver);
-        homePage.clickAccountIcon();
-        loginPage = homePage.clickLogin();
-        loginPage.enterEmail(email);
-        loginPage.enterPassword(password);
-        accountPage = loginPage.clickLogin();
-    }
-
     @Given("the user navigates to the Edit Account page")
     public void the_user_navigates_to_the_edit_account_page(){
+        accountPage = new AccountPage(driver);
         editAccountPage = accountPage.clickEditAccount();
     }
     @When("I change first name to {string} and last name to {string}")
