@@ -40,6 +40,15 @@ public class Hooks {
         lastRegisteredEmail = email;
         lastRegisteredPassword = password;
     }
+    @Before("@requiresLogin")
+    public void doLogin() {
+        HomePage home = new HomePage(driver);
+        home.clickAccountIcon();
+        LoginPage login = home.clickLogin();
+        login.enterEmail("admin@gmail.com");
+        login.enterPassword("123456");
+        login.clickLogin();
+    }
 
     @After
     public void quit() {

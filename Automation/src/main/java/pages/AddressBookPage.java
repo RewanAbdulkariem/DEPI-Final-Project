@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class AddressBookPage extends HelpFunctions {
 
-    private By newAddressBtn = By.cssSelector("a[href*='route=account/address/add']");
+    private By newAddressBtn = By.cssSelector("a[href*='route=account/address.form']");
     private By backBtn = By.linkText("Back");
 
     private By editBtns = By.cssSelector("a[href*='route=account/address/edit']");
@@ -20,8 +20,9 @@ public class AddressBookPage extends HelpFunctions {
     }
 
     // Opens the Add Address page
-    public void clickNewAddress(){
+    public NewAddressPage clickNewAddress(){
         click(newAddressBtn);
+        return new NewAddressPage(driver);
     }
     // Goes back to the previous page
     public void clickBack(){
