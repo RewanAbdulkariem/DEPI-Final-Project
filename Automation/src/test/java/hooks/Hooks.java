@@ -4,28 +4,41 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.HomePage;
-import pages.LoginPage;
+import pages.*;
+
+import java.util.UUID;
 
 public class Hooks {
 
     public static WebDriver driver;
+    public static String lastRegisteredEmail;
+    public static String lastRegisteredPassword;
 
-    @Before
+    @Before(order = 0)
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://localhost/OpenCart/");
     }
+    @Before(value = "@registerNewUser", order = 1)
+    public void registerNewTestUser() {
+        String unique = UUID.randomUUID().toString().substring(0, 8);
+        String email = "test+" + unique + "@mail.com";
+        String password = "Pass" + unique;
 
-    @Before("@requiresLogin")
-    public void doLogin() {
         HomePage home = new HomePage(driver);
         home.clickAccountIcon();
-        LoginPage login = home.clickLogin();
-        login.enterEmail("admin@gmail.com");
-        login.enterPassword("123456");
-        login.clickLogin();
+        RegisterPage registerPage = home.clickRegister();
+
+        registerPage.enterFirstName("Auto");
+        registerPage.enterLastName("User");
+        registerPage.enterEmail(email);
+        registerPage.enterPassword(password);
+        registerPage.agreeToPrivacyPolicy();
+        registerPage.clickContinue();
+
+        lastRegisteredEmail = email;
+        lastRegisteredPassword = password;
     }
 
     @After

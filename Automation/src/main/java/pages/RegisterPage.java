@@ -3,6 +3,7 @@ package pages;
 import base.HelpFunctions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class RegisterPage extends HelpFunctions {
     public RegisterPage(WebDriver driver){
@@ -12,13 +13,11 @@ public class RegisterPage extends HelpFunctions {
     private By firstName = By.id("input-firstname");
     private By lastName = By.id("input-lastname");
     private By email = By.id("input-email");
-    private By telephone = By.id("input-telephone");
 
     private By password = By.id("input-password");
-    private By confirmPassword = By.id("input-confirm");
 
     private By agreeCheckbox = By.name("agree");
-    private By continueButton = By.xpath("//input[contains(@class,\"btn-primary\")]");
+    private By continueButton = By.xpath("//button[contains(@class,\"btn-primary\")]");
     private By successMessage = By.cssSelector("#content h1");
 
     public void enterFirstName(String text){
@@ -33,17 +32,11 @@ public class RegisterPage extends HelpFunctions {
         sendText(email, text);
     }
 
-    public void enterTelephone(String text){
-        sendText(telephone, text);
-    }
 
     public void enterPassword(String text){
         sendText(password, text);
     }
 
-    public void enterConfirmPassword(String text){
-        sendText(confirmPassword, text);
-    }
 
     public void agreeToPrivacyPolicy() {
         // click only if not already selected
@@ -54,6 +47,7 @@ public class RegisterPage extends HelpFunctions {
 
     public void clickContinue(){
         click(continueButton);
+        waitForElement(successMessage);
     }
 
 

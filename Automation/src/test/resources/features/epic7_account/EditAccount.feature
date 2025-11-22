@@ -1,4 +1,4 @@
-@requiresLogin
+@registerNewUser
 Feature: Edit Account Information
   Scenario: Edit account with valid first and last name
     Given the user navigates to the Edit Account page
