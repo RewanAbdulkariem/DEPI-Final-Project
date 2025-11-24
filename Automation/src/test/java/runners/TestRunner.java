@@ -6,7 +6,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = "src/test/resources/features/epic3_product_details",
         glue = {"stepDefinitions", "hooks"},
-        plugin = {"pretty"}
+        plugin = {"pretty", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 }
