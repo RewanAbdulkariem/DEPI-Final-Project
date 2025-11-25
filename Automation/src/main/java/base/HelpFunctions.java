@@ -3,6 +3,7 @@ package base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -32,7 +33,9 @@ public class HelpFunctions {
     }
 
     public void click(By locator) {
-        waitToBeClickable(locator).click();
+        WebElement element = waitToBeClickable(locator);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().perform();
     }
 
     public void sendText(By locator, String text){
