@@ -4,6 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.*;
 
 import java.util.UUID;
@@ -15,13 +16,19 @@ public class Hooks {
     public static String lastRegisteredPassword;
 
     @Before(order = 0)
-    public void setUp() {
-        driver = new ChromeDriver();
+    public void setUp()
+    {
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--force-device-scale-factor=0.85");
+
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.get("http://localhost/OpenCart/");
+        driver.get("http://localhost:8080/opencart/");
     }
     @Before(value = "@registerNewUser", order = 1)
-    public void registerNewTestUser() {
+    public void registerNewTestUser()
+    {
         String unique = UUID.randomUUID().toString().substring(0, 8);
         String email = "test+" + unique + "@mail.com";
         String password = "Pass" + unique;
