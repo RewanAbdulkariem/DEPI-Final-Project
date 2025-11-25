@@ -46,6 +46,10 @@ public class ProductDetailsSteps {
         Assert.assertTrue(productPage.isStockStatusDisplayed(),
                 "Stock status is NOT displayed!");
     }
+
+
+
+
     @Given("the user opens a product with a defined price")
     public void the_user_opens_a_product_with_a_defined_price() {
         driver.get("http://localhost/opencart/index.php?route=product/product&language=en-gb&product_id=43");
