@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -52,5 +53,11 @@ public class HelpFunctions {
     public void clickByIndex(By locator, int index) {
         driver.findElements(locator).get(index).click();
     }
-
+    public void selectFromDropDownMenu(By locator, String selectedItem, int index){
+        Select countryDropdown = new Select(wait.until(ExpectedConditions.elementToBeClickable(locator)));
+        if (selectedItem != null)
+            countryDropdown.selectByVisibleText(selectedItem);
+        else
+            countryDropdown.selectByIndex(index);
+    }
 }

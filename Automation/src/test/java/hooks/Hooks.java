@@ -42,7 +42,7 @@ public class Hooks {
         lastRegisteredEmail = email;
         lastRegisteredPassword = password;
     }
-    @Before("@requiresLogin")
+    @Before(value = "@requiresLogin", order = 2)
     public void doLogin() {
         HomePage home = new HomePage(driver);
         home.clickAccountIcon();
@@ -51,7 +51,21 @@ public class Hooks {
         login.enterPassword("123456");
         login.clickLogin();
     }
-
+    @Before(value = "@requiredProductsInCart", order = 3)
+    public void addProductsToCart(){
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.addProductToCart("MacBook");
+        loginPage.addProductToCart("iPhone");
+        loginPage.openCart();
+        loginPage.getCheckout().click();
+    }
+    @Before(value = "@completeCheckoutPageData", order = 4)
+    public void fillChekoutPage(){
+        CheckoutPage checkoutPage = new CheckoutPage(driver);
+        checkoutPage.ensureShippingAddressData();
+        checkoutPage.chooseShippingMethod();
+        checkoutPage.choosePaymentMethod();
+    }
     @After
     public void quit() {
         if (driver != null) {
