@@ -4,7 +4,6 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import pages.*;
 
 import java.util.UUID;
@@ -18,10 +17,7 @@ public class Hooks {
     @Before(order = 0)
     public void setUp()
     {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--force-device-scale-factor=1.25");
-
-        driver = new ChromeDriver(options);
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://localhost/opencart/");
     }
