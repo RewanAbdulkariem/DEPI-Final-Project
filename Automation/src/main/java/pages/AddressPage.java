@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-public class NewAddressPage extends HelpFunctions {
-    public NewAddressPage(WebDriver driver) {
+public class AddressPage extends HelpFunctions {
+    public AddressPage(WebDriver driver) {
         super(driver);
     }
 
@@ -64,7 +64,8 @@ public class NewAddressPage extends HelpFunctions {
             click(defaultNo);
         }
     }
-    public void clickContinue() {
+    public AddressBookPage clickContinue() {
         click(continueBtn);
+        return new AddressBookPage(driver);
     }
     }
