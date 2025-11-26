@@ -23,7 +23,7 @@ public class CheckoutSteps {
     private CartPage cartPage;
     private AccountPage accountPage;
     private AddressBookPage addressBookPage;
-    private NewAddressPage newAddressPage;
+    private AddressPage addressPage;
 
     // ---------------------------------------------------------
     // TC016 – Proceed to Checkout

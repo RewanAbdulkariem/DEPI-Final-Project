@@ -25,7 +25,7 @@ public class OrderManagementSteps {
     private CartPage cartPage;
     private AccountPage accountPage;
     private AddressBookPage addressBookPage;
-    private NewAddressPage newAddressPage;
+    private AddressPage addressPage;
     @Before
     public void setPages(){
         homePage = new HomePage(driver);
