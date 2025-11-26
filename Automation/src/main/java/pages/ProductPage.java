@@ -9,7 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class ProductPage extends HelpFunctions {
+public class ProductPage extends HelpFunctions
+{
 
     public ProductPage(WebDriver driver) {
         super(driver);
