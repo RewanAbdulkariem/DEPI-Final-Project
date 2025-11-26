@@ -2,13 +2,7 @@ package pages;
 
 import base.HelpFunctions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class RegisterPage extends HelpFunctions
 {
@@ -43,53 +37,17 @@ public class RegisterPage extends HelpFunctions
         sendText(password, text);
     }
 
-    public void agreeToPrivacyPolicy()
-    {
-
-        // استدعاء العنصر
-        WebElement element1 = driver.findElement(agreeCheckbox);
-        ((JavascriptExecutor) driver).executeScript(
-                "window.scrollTo(0, document.body.scrollHeight + -200);"
-        );
-            // Optional: انتظار العنصر يكون clickable قبل الضغط
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.elementToBeClickable(element1));
-
-            if (!driver.findElement(agreeCheckbox).isSelected()) {
-                click(agreeCheckbox);
-            }
+    public void agreeToPrivacyPolicy() {
+        // click only if not already selected
+        if (!driver.findElement(agreeCheckbox).isSelected()) {
+            click(agreeCheckbox);
+        }
     }
 
-//    public void agreeToPrivacyPolicy() {
-//        // click only if not already selected
-//        if (!driver.findElement(agreeCheckbox).isSelected()) {
-//            click(agreeCheckbox);
-//        }
-//    }
-
-    public void clickContinue()
-    {
-
-        // استدعاء العنصر
-        WebElement element = driver.findElement(continueButton);
-        ((JavascriptExecutor) driver).executeScript(
-                "window.scrollTo(0, document.body.scrollHeight + -200);"
-        );
-            // انتظار العنصر يكون clickable بعد scroll
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-            // ضغط على العنصر بعد scroll
-            element.click();
-        // انتظار ظهور رسالة النجاح
+    public void clickContinue(){
+        click(continueButton);
         waitForElement(successMessage);
     }
-
-
-//    public void clickContinue(){
-//        click(continueButton);
-//        waitForElement(successMessage);
-//
-//    }
 
 
 

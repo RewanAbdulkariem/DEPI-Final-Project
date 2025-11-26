@@ -18,13 +18,12 @@ public class Hooks {
     @Before(order = 0)
     public void setUp()
     {
-
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--force-device-scale-factor=0.85");
+        options.addArguments("--force-device-scale-factor=1.25");
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.get("http://localhost:8080/opencart/");
+        driver.get("http://localhost/opencart/");
     }
     @Before(value = "@registerNewUser", order = 1)
     public void registerNewTestUser()
