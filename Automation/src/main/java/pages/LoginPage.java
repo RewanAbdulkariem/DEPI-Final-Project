@@ -5,7 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 public class LoginPage extends HelpFunctions {
-
+    private By forgottenlink =By.linkText("Forgotten Password");
     private By emailField = By.id("input-email");
     private By passwordField = By.id("input-password");
     private By loginBtn = By.xpath("//button[contains(@class,'btn-primary')]");
@@ -21,6 +21,7 @@ public class LoginPage extends HelpFunctions {
     By table = By.xpath("//table[.//th[contains(text(),'Order ID')]]");
     By firstBillInHistoryPage = By.xpath("//*[@id=\"content\"]/div[1]/table/tbody/tr[1]/td[6]/a/i");
     By orderStatus = By.xpath("//*[@id=\"history\"]/div[1]/table/tbody/tr/td[3]");
+    By Errormsg = By.xpath("//div[contains(@class,\"alert alert-danger alert-dismissible\")]");
     public LoginPage(WebDriver driver){
 
         super(driver);
@@ -75,9 +76,7 @@ public class LoginPage extends HelpFunctions {
         return waitForElement(myAccountTitle).getText();
 
     }
-    public void clickOrderHistory(){
-        waitToBeClickable(orderHistory).click();
-    }
+    public void clickOrderHistory(){waitToBeClickable(orderHistory).click();}
     public String getOrdersTableTitle()
     {
         return waitForElement(ordersTableTitle).getText();
@@ -91,5 +90,13 @@ public class LoginPage extends HelpFunctions {
     public String getOrderStatus(){
         return waitForElement(orderStatus).getText();
     }
+    public String getErrorMsg(){
+        return getText(Errormsg);
+    }
 
+    public ForgotPasswordPage ClicknforgottenpassLink ()
+    {
+        driver.findElement(forgottenlink).click();
+        return new ForgotPasswordPage(driver);
+    }
 }

@@ -18,10 +18,12 @@ public class HomePage extends HelpFunctions {
     By accountIcon = By.xpath("//a[i[contains(@class,'fa-user')]]");
     By registerLink = By.cssSelector("a[href*='register']");
     By loginLink = By.cssSelector("a[href*='login']");
-
+    By opencartimg = By.xpath("//img[@title=\"Your Store\"]");
     By cartBtn = By.xpath("//a[@title=\"Shopping Cart\"]");
     By checkoutBtn = By.xpath("//span[contains(text(),'Checkout')]");
     By searchBarTxt = By.xpath("//input[@name=\"search\"]");
+    By searchBtn = By.xpath("//button[@class=\"btn btn-light btn-lg\"]");
+    By IPOD = By.xpath("//a[text()=\"iPod Classic\"]");
     By searchResultProducts = By.cssSelector("#product-list .product-thumb");
     By searchResultFirstProduct = By.cssSelector("#product-list > div:nth-child(1) > div");
     By overlay = By.cssSelector(".overlay, .loading, .modal-backdrop");
@@ -92,11 +94,35 @@ public class HomePage extends HelpFunctions {
         return btn;
     }
 
-
-
     // ---- OPEN ORDER HISTORY ----
     public void openOrderHistory() {
         waitToBeClickable(accountIcon).click();
         driver.findElement(By.linkText("Order History")).click();
     }
+    //Search Section
+    public void clickOnOpencartimg(){
+        click(opencartimg);
+    }
+    public void enterproductname(String productname){
+        sendText(searchBarTxt, productname);
+    }
+    public void clicknsearchBtn(){
+        click(searchBtn);
+    }
+    public boolean isProductAppeared()
+    {
+
+        try
+        {
+            String msg = getText(IPOD);
+            return msg.equalsIgnoreCase("iPod Classic");
+        } catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+
+
+
 }

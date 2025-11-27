@@ -4,11 +4,11 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-        // features = "src/test/resources/features/epic7_account/AddressManagement.feature",
-        features = "src/test/resources/features/epic8_admin/AdminReports.feature",
-
+        features = "src/test/resources/features/epic7_account/AddressManagement.feature",
         glue = {"stepDefinitions", "hooks"},
         plugin = {"pretty", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
 )
-public class TestRunner extends AbstractTestNGCucumberTests {
+public class TestRunner extends AbstractTestNGCucumberTests
+{
+
 }
