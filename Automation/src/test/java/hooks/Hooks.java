@@ -20,6 +20,8 @@ public class Hooks {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://localhost:8080/opencart");
+        //for admin 
+        // driver.get("http://localhost/opencart/admin/");
     }
     @Before(value = "@registerNewUser", order = 1)
     public void registerNewTestUser()
