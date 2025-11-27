@@ -20,12 +20,13 @@ Feature: AddressManagement
     When the user clicks on Edit for an existing address
     And the user changes the city to "Alexandria"
     And the user saves the address
-    Then the updated address details should be displayed in the address list
+    Then Success message confirms the edition
+    And the updated address details should be displayed in the address list
 
 
   Scenario: Delete an address successfully
-    Given the user has at least two saved addresses
-    And the user is on the Address Book page
+    Given the user is on the Address Book page
+    And the user has at least two saved addresses
     When the user clicks Delete on one of the addresses
-    And the user confirms the deletion
+    And Success message confirms the deletion
     Then the address should no longer appear in the list

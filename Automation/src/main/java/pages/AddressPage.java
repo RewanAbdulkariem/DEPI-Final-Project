@@ -68,4 +68,8 @@ public class AddressPage extends HelpFunctions {
         click(continueBtn);
         return new AddressBookPage(driver);
     }
+    public AddressBookPage clickBack(){
+        click(backBtn);
+        return new AddressBookPage(driver);
     }
+}

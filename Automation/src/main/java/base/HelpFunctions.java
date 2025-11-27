@@ -50,9 +50,6 @@ public class HelpFunctions {
         return waitForElement(locator).getText();
     }
 
-    public void clickByIndex(By locator, int index) {
-        driver.findElements(locator).get(index).click();
-    }
     public void selectFromDropDownMenu(By locator, String selectedItem, int index){
         Select countryDropdown = new Select(wait.until(ExpectedConditions.elementToBeClickable(locator)));
         if (selectedItem != null)

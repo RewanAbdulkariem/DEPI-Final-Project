@@ -16,10 +16,8 @@ public class AddressBookPage extends HelpFunctions {
     private By newAddressBtn = By.xpath("//a[text()='New Address']");
     private By backBtn = By.linkText("Back");
 
-    private By editBtns = By.xpath("//*[contains(@class,'btn') and contains(@aria-label,'Edit')]");
-    private By deleteBtns = By.xpath("//*[contains(@class,'btn') and contains(@aria-label,'Delete')]");
+    private final By addressRows  = By.cssSelector("#address table tbody tr");
 
-    private By addressRows = By.xpath("(//tr)/td[1]");
     private By Alert = By.cssSelector("div[class*='alert']");
 
 
@@ -38,42 +36,66 @@ public class AddressBookPage extends HelpFunctions {
         click(backBtn);
     }
 
-    // Clicks the first Edit button (index 0)
-    public AddressPage clickEdit() {
-        clickEdit(1); // default index = 0
-        return new AddressPage(driver);
-    }
-
-    // Clicks Edit button by index  (0 represents first button)
-    public AddressPage clickEdit(int index) {
-        clickByIndex(editBtns, index);
-        return new AddressPage(driver);
-
-    }
-
-    // Clicks the first Delete button (index 0)
-    public void clickDelete() {
-        clickDelete(1); // default index = 0
-    }
-
-    // Clicks Delete button by index (0 represents first button)
-    public void clickDelete(int index) {
-        clickByIndex(deleteBtns, index);
-    }
-
-    public boolean isAddSuccessMsgDisplayed(){
-        return getText(Alert).contains("Your address has been successfully added");
-    }
-
-    public boolean isUpdateSuccessMsgDisplayed(){
-        return getText(Alert).contains("Your address has been successfully updated");
-    }
-
-
     public int numOfAddressRows(){
         List <WebElement> rows = driver.findElements(addressRows);
         return rows.size();
     }
+
+    public AddressPage clickEdit() {
+        return clickEditByIndex(0);
+    }
+
+    public AddressPage clickEditByIndex(int index) {
+        waitForElement(addressRows);
+
+        List<WebElement> rows = driver.findElements(addressRows);
+
+        if (rows.isEmpty()) {
+            throw new IllegalStateException("No address rows found in address book!");
+        }
+        if (index < 0 || index >= rows.size()) {
+            throw new IndexOutOfBoundsException(
+                    "Invalid row index: " + index + " (available rows: " + rows.size() + ")"
+            );
+        }
+
+        By editBtnLocator = By.xpath("//*[@id='address']/div/table/tbody/tr[" + (index + 1) + "]/td[3]/a[1]");
+        waitToBeClickable(editBtnLocator).click();
+
+        return new AddressPage(driver);
+    }
+    public void clickDelete() {
+        clickDeleteByIndex(0);
+    }
+    public void clickDeleteByIndex(int index) {
+        waitForElement(addressRows);
+
+        List<WebElement> rows = driver.findElements(addressRows);
+
+        if (rows.isEmpty()) {
+            throw new IllegalStateException("No address rows found in address book!");
+        }
+        if (index < 0 || index >= rows.size()) {
+            throw new IndexOutOfBoundsException(
+                    "Invalid row index: " + index + " (available rows: " + rows.size() + ")"
+            );
+        }
+
+        By deleteBtnLocator = By.xpath("//*[@id='address']/div/table/tbody/tr[" + (index + 1) + "]/td[3]/a[2]");
+        waitToBeClickable(deleteBtnLocator).click();
+    }
+
+    public boolean isAddSuccessMsgDisplayed(){
+        return getText(Alert).contains("successfully added");
+    }
+
+    public boolean isUpdateSuccessMsgDisplayed(){
+        return getText(Alert).contains("successfully updated");
+    }
+    public boolean isDeleteSuccessMsgDisplayed() {
+        return getText(Alert).contains("successfully deleted");
+    }
+
     public boolean isAddressPresent(String firstName, String address1) {
         List <WebElement> rows = driver.findElements(addressRows);
         for (WebElement row: rows){
@@ -86,12 +108,13 @@ public class AddressBookPage extends HelpFunctions {
         return false;
     }
 
-    public boolean isCityPresent(String city) {
+    public boolean isCityUpdated(String city) {
+        waitForElement(addressRows);
+
         List<WebElement> rows = driver.findElements(addressRows);
-        for (WebElement row : rows) {
-            if (row.getText().contains(city)) {
+        WebElement row = rows.get(0);
+        if (row.getText().contains(city)) {
                 return true;
-            }
         }
         return false;
     }
