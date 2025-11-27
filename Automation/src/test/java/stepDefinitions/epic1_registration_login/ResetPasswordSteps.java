@@ -30,7 +30,7 @@ public class ResetPasswordSteps
     @When("User click on the Forgot Password link")
     public void user_click_on_the_forgot_password_link()
     {
-        loginPage.ClicknforgottenpassLink();
+        loginPage.clickForgottenPasswordLink();
     }
     
     @Then("User should be navigated to forgotten password page")

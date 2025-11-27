@@ -4,6 +4,8 @@ import org.testng.Assert;
 import pages.AdminPage;
 
 import static hooks.Hooks.driver;
+import static config.TestConfig.get;
+
 public class AdminOrdersSteps {
 AdminPage adminPage;
 @Given("the admin is logged in successfully")
@@ -12,10 +14,9 @@ public void the_admin_is_logged_in_successfully() {
   if (adminPage == null) {
         adminPage = new AdminPage(driver);
     }
-    driver.get("http://localhost/opencart/admin/");
+    adminPage.enterUsername(get("admin.username"));
+    adminPage.enterPassword(get("admin.password"));
 
-    adminPage.enterUsername("admin");
-    adminPage.enterPassword("password123");
     adminPage.clickLoginButton();
 
     Assert.assertTrue(

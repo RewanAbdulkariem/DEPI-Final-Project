@@ -5,24 +5,42 @@ import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.*;
+import static config.TestConfig.get;
 
 import java.util.UUID;
 
 public class Hooks {
 
     public static WebDriver driver;
+    public static String baseUrl;
     public static String lastRegisteredEmail;
     public static String lastRegisteredPassword;
 
     @Before(order = 0)
     public void setUp()
     {
+        String env  = get("env");    // demo / admin
+        String port = get("port");   // 80 / 8080 ...
+
+        switch (env.toLowerCase()) {
+            case "admin":
+            case "myadmin":
+                baseUrl = "http://localhost:" + port + "/opencart/" + env;
+                break;
+
+            case "demo":
+            default:
+                baseUrl = "http://localhost:" + port + "/opencart/";
+                break;
+        }
+
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get("http://localhost:8080/opencart");
-        //for admin 
-        // driver.get("http://localhost/opencart/admin/");
+        driver.get(baseUrl);
+        // to run mvn test -Denv=demo -Dport=8080 or mvn test -Denv=admin -Dport=8080
     }
+
+
     @Before(value = "@registerNewUser", order = 1)
     public void registerNewTestUser()
     {
@@ -49,17 +67,20 @@ public class Hooks {
         HomePage home = new HomePage(driver);
         home.clickAccountIcon();
         LoginPage login = home.clickLogin();
-        login.enterEmail("admin@gmail.com");
-        login.enterPassword("123456");
+        login.enterEmail(get("demo.username"));
+        login.enterPassword(get("demo.password"));
         login.clickLogin();
+        login.waitForSuccessfulLogin();
     }
     @Before(value = "@requiredProductsInCart", order = 3)
     public void addProductsToCart(){
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.addProductToCart("MacBook");
-        loginPage.addProductToCart("iPhone");
-        loginPage.openCart();
-        loginPage.getCheckout().click();
+        HomePage home = new HomePage(driver);
+
+        home.addProductToCart("MacBook");
+        home.addProductToCart("iPhone");
+
+        home.openCart();
+        home.getCheckout().click();
     }
     @Before(value = "@completeCheckoutPageData", order = 4)
     public void fillChekoutPage(){

@@ -1,3 +1,4 @@
+@admin
 Feature: Admin Login
 
   Scenario: Successful admin login

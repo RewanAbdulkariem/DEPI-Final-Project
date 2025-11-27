@@ -1,3 +1,4 @@
+@admin
 Feature: Admin Reports Management
 
   Background:

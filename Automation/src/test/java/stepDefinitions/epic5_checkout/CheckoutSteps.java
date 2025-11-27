@@ -15,15 +15,10 @@ import org.testng.Assert;
 import pages.*;
 
 public class CheckoutSteps {
-    private static final Logger log = LoggerFactory.getLogger(CheckoutSteps.class);
     private WebDriver driver = Hooks.driver;
     private HomePage homePage;
     private CheckoutPage checkoutPage;
     private LoginPage loginPage;
-    private CartPage cartPage;
-    private AccountPage accountPage;
-    private AddressBookPage addressBookPage;
-    private AddressPage addressPage;
 
     // ---------------------------------------------------------
     // TC016 – Proceed to Checkout
@@ -33,7 +28,6 @@ public class CheckoutSteps {
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
         checkoutPage = new CheckoutPage(driver);
-        cartPage  = new CartPage(driver);
     }
 
     @Given("the user is logged in")
@@ -44,17 +38,17 @@ public class CheckoutSteps {
 
     @Given("the user has items in the shopping cart")
     public void user_has_items_in_cart() {
-        loginPage.addProductToCart("MacBook");
-        loginPage.addProductToCart("iPhone");
+        homePage.addProductToCart("MacBook");
+        homePage.addProductToCart("iPhone");
     }
 
     @When("the user goes to the cart page")
     public void go_to_cart_page() {
-        loginPage.openCart();
+        homePage.openCart();
     }
     @When("the user clicks on the Checkout button")
     public void click_checkout_button() {
-        loginPage.getCheckout();
+        homePage.getCheckout();
     }
 
 
@@ -74,7 +68,7 @@ public class CheckoutSteps {
 
     @Given("the user is on the checkout page")
     public void on_checkout_page() {
-        loginPage.getCheckout().click();
+        homePage.getCheckout().click();
     }
 
     @When("the user fills in valid shipping and billing information")

@@ -5,20 +5,20 @@ import org.testng.Assert;
 import pages.AdminPage;
 
 import static hooks.Hooks.driver;
+import static config.TestConfig.get;
 
 public class AdminLoginSteps {
    AdminPage adminPage;
 
     @Given("the admin is on the login page")
     public void the_admin_is_on_the_login_page() {
-        driver.get("http://localhost/opencart/admin/");
         adminPage = new AdminPage(driver);
     }
 
     @When("the admin enters valid username and password")
     public void the_admin_enters_valid_username_and_password() {
-        adminPage.enterUsername("admin");
-        adminPage.enterPassword("password123");
+        adminPage.enterUsername(get("admin.username"));
+        adminPage.enterPassword(get("admin.password"));
     }
 
     @When("the admin enters invalid username or password")

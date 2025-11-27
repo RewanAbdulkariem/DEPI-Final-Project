@@ -51,6 +51,7 @@ public class LoginSteps
 
     @Then("the user should see the account page")
     public void userseetheaccountpage() {
+        loginPage.waitForSuccessfulLogin();
         String expectedUrl = "route=account/account";
         String actualUrl = driver.getCurrentUrl();
 
@@ -60,7 +61,7 @@ public class LoginSteps
     @Then("error msg should be displayed and user still on login page")
     public void errorMsgShouldBeDisplayedAndUserStillOnLoginPage()
     {
-        String expectedMessage = " Warning: No match for E-Mail Address and/or Password.";
+        String expectedMessage = "Warning: No match for E-Mail Address and/or Password.";
         String actual = loginPage.getErrorMsg();
         Assert.assertEquals(actual, expectedMessage, "Wrong validation message!");
 

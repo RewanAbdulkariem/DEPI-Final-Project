@@ -1,3 +1,4 @@
+@admin
 Feature: Admin Product Management
 
   Background:

@@ -6,7 +6,7 @@ Feature: Authentication
     Then the user should see the account page
 
 
-    Scenario Outline: check login with in valid data
+    Scenario Outline: check login with invalid data
       Given User navigate to login page
       When User enter invalid "<email>" and "<password>"
       And Click on login button

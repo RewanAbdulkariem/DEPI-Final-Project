@@ -3,31 +3,34 @@ package pages;
 import base.HelpFunctions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class HomePage extends HelpFunctions {
     public HomePage(WebDriver driver) {
-
         super(driver);
-        this.driver = driver;
     }
 
+    // ===== Locators =====
     By accountIcon = By.xpath("//a[i[contains(@class,'fa-user')]]");
     By registerLink = By.cssSelector("a[href*='register']");
     By loginLink = By.cssSelector("a[href*='login']");
-    By opencartimg = By.xpath("//img[@title=\"Your Store\"]");
+    By openCartImg = By.xpath("//img[@title=\"Your Store\"]");
+
+    By addToCartBtn = By.cssSelector(".fa-shopping-cart");
     By cartBtn = By.xpath("//a[@title=\"Shopping Cart\"]");
     By checkoutBtn = By.xpath("//span[contains(text(),'Checkout')]");
+
     By searchBarTxt = By.xpath("//input[@name=\"search\"]");
     By searchBtn = By.xpath("//button[@class=\"btn btn-light btn-lg\"]");
+
     By IPOD = By.xpath("//a[text()=\"iPod Classic\"]");
+
     By searchResultProducts = By.cssSelector("#product-list .product-thumb");
     By searchResultFirstProduct = By.cssSelector("#product-list > div:nth-child(1) > div");
+
+    By popupCloseBtn            = By.cssSelector(".modal .btn-close");
     By overlay = By.cssSelector(".overlay, .loading, .modal-backdrop");
 
+    // ===== Account / Auth =====
     public void clickAccountIcon(){
         click(accountIcon);
     }
@@ -35,8 +38,6 @@ public class HomePage extends HelpFunctions {
     public LoginPage clickLogin(){
         click(loginLink);
         return new LoginPage(driver);
-
-
     }
 
     public RegisterPage clickRegister(){
@@ -44,17 +45,10 @@ public class HomePage extends HelpFunctions {
         return new RegisterPage(driver);
     }
 
+    // ===== Search & Cart =====
     public void addProductToCart(String productName) {
-        // أغلق أي popup
-        try {
-            WebElement popupClose = driver.findElement(By.cssSelector(".modal .btn-close"));
-            if (popupClose.isDisplayed()) popupClose.click();
-        } catch (Exception ignored) {}
-
-        // انتظر اختفاء أي overlay
-        try {
-            waitForElement(overlay);
-        } catch (Exception ignored) {}
+        closePopupIfPresent();
+        waitForOverlayToDisappear();
 
         // البحث
         WebElement search = waitToBeClickable(searchBarTxt);
@@ -63,50 +57,37 @@ public class HomePage extends HelpFunctions {
 
         // انتظر ظهور المنتجات
         waitForElement(searchResultProducts);
-
         // اضغط على أول منتج
         clickFirstProduct();
     }
     public void clickFirstProduct() {
         // انتظر ظهور أول منتج
         WebElement firstProduct = waitForElement(searchResultFirstProduct);
+        WebElement addToCart = firstProduct.findElement(addToCartBtn);
 
-        // ابحث عن زر "Add to Cart"
-        By addToCartBtn = By.cssSelector(".fa-shopping-cart");
-
-        // تمرير الزر إلى منتصف الشاشة باستخدام Actions
         Actions actions = new Actions(driver);
-        actions.moveToElement(waitToBeClickable(addToCartBtn)).click().perform();
+        actions.moveToElement(addToCart).click().perform();
     }
+
     public void openCart() {
-        //WebElement cartBtnEl = waitForElement(cartBtn);
-
-        Actions actions = new Actions(driver);
-        actions.moveToElement(waitToBeClickable(cartBtn)).click().perform();
+        click(cartBtn);
     }
+
     public WebElement getCheckout() {
         WebElement btn = waitToBeClickable(checkoutBtn);
-
-
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", btn);
-
-
         return btn;
     }
 
-    // ---- OPEN ORDER HISTORY ----
-    public void openOrderHistory() {
-        waitToBeClickable(accountIcon).click();
-        driver.findElement(By.linkText("Order History")).click();
-    }
+
     //Search Section
-    public void clickOnOpencartimg(){
-        click(opencartimg);
+    public void clickOnOpencartImg(){
+        click(openCartImg);
     }
-    public void enterproductname(String productname){
+    public void enterProductName(String productname){
         sendText(searchBarTxt, productname);
     }
-    public void clicknsearchBtn(){
+    public void clickSearchBtn(){
         click(searchBtn);
     }
     public boolean isProductAppeared()
@@ -122,7 +103,20 @@ public class HomePage extends HelpFunctions {
         }
     }
 
+    private void closePopupIfPresent() {
+        try {
+            WebElement popupClose = driver.findElement(popupCloseBtn);
+            if (popupClose.isDisplayed()) {
+                popupClose.click();
+            }
+        } catch (NoSuchElementException ignored) {
+        }
+    }
 
-
-
+    private void waitForOverlayToDisappear() {
+        try {
+            wait.until(d -> d.findElements(overlay).isEmpty());
+        } catch (Exception ignored) {
+        }
+    }
 }

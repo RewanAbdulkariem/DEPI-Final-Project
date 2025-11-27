@@ -17,19 +17,19 @@ public class SearchSteps
     @Given("user on the Home page")
     public void userOnTheHomePage()
     {
-        homePage.clickOnOpencartimg();
+        homePage.clickOnOpencartImg();
     }
 
     @When("user enter a valid product name in the search bar {string}")
     public void userEnterAValidProductNameInTheSearchBar(String product)
     {
-        homePage.enterproductname(product);
+        homePage.enterProductName(product);
     }
 
     @And("user click the search button")
     public void userClickTheSearchButton()
     {
-        homePage.clicknsearchBtn();
+        homePage.clickSearchBtn();
     }
 
     @Then("user should see products related to the search term")

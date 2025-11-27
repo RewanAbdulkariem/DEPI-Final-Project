@@ -1,3 +1,4 @@
+@admin
 Feature: Admin Orders Management
 
   Background:

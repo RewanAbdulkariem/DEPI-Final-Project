@@ -14,6 +14,7 @@ public class AccountPage extends HelpFunctions {
     private By changePasswordLink = By.cssSelector("a[href*='route=account/password']");
     private By addressBookLink = By.cssSelector("a[href*='route=account/address']");
     private By modifyWishlistLink = By.cssSelector("a[href*='route=account/wishlist']") ;
+    private By orderHistoryLink = By.linkText("View your order history");
 
     public AccountPage(WebDriver driver) {
         super(driver);
@@ -44,4 +45,8 @@ public class AccountPage extends HelpFunctions {
         return new WishListPage(driver);
     }
 
+    public OrderHistoryPage clickOrderHistory() {
+        click(orderHistoryLink);
+        return new OrderHistoryPage(driver);
+    }
 }
