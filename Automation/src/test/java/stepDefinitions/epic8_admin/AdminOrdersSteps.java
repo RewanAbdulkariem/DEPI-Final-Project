@@ -6,21 +6,21 @@ import pages.AdminPage;
 import static hooks.Hooks.driver;
 public class AdminOrdersSteps {
 AdminPage adminPage;
-@Given("the admin is logged in successfully")
-public void the_admin_is_logged_in_successfully() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@When("navigates to the Data tab")
-public void navigates_to_the_data_tab() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
-@When("navigates to the SEO tab")
-public void navigates_to_the_seo_tab() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
-}
+// @Given("the admin is logged in successfully")
+// public void the_admin_is_logged_in_successfully() {
+//     // Write code here that turns the phrase above into concrete actions
+//     throw new io.cucumber.java.PendingException();
+// }
+// @When("navigates to the Data tab")
+// public void navigates_to_the_data_tab() {
+//     // Write code here that turns the phrase above into concrete actions
+//     throw new io.cucumber.java.PendingException();
+// }
+// @When("navigates to the SEO tab")
+// public void navigates_to_the_seo_tab() {
+//     // Write code here that turns the phrase above into concrete actions
+//     throw new io.cucumber.java.PendingException();
+// }
     @Given("the admin navigates to the Orders page")
     public void the_admin_navigates_to_the_orders_page() {
         adminPage = new AdminPage(driver);
