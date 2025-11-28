@@ -325,78 +325,90 @@ public class AdminPage extends HelpFunctions {
     // ========== REPORTS =========
     // ===========================
     private By reportsMenu       = By.id("menu-report");
-    private By reportTable       = By.cssSelector("form#form-report table.table-bordered.table-hover tbody");
-    private By reportTableRows   = By.cssSelector("form#form-report table.table-bordered.table-hover tbody tr");
+    private By reportsLink       = By.xpath("//a[contains(@href, 'route=report/report')]");
+    private By reportTable       = By.cssSelector("table tbody");
+
     private By fromDateField     = By.id("input-date-start");
     private By toDateField       = By.id("input-date-end");
-    private By reportsFilterBtn  = By.id("button-filter");
     private By reportCustomerField = By.id("input-customer");
-    private By productField      = By.id("input-product");
+
+    private By reportsFilterBtn  = By.id("button-filter");
+
+    private By selectorType = By.id("input-report");
+    private By salesOrderTable = By.id("sale-order");
 
     public void goToReportsPage() {
         click(reportsMenu);
+        click(reportsLink);
         waitForElement(reportTable);
     }
 
     public boolean isReportsTableDisplayed() {
-        return driver.findElements(reportTable).size() > 0;
+        try {
+            waitForElement(reportTable);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
-
+    public void chooseReportType(String type){
+        selectFromDropDownMenu(selectorType, type);
+    }
     public void openSalesReport() {
-        click(By.xpath("//a[text()='Sales']"));
+        chooseReportType("Sales Report");
         waitForElement(reportTable);
     }
 
+    public boolean isSalesTableAppear(){
+        try {
+            waitForElement(salesOrderTable);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+
+    }
+    // ---------- Products Viewed ----------
     public void openProductsViewedReport() {
-        click(By.xpath("//a[text()='Products Viewed']"));
+        chooseReportType("Products Viewed Report");
         waitForElement(reportTable);
     }
 
+    // ---------- Products Purchased ----------
     public void openProductsPurchasedReport() {
-        click(By.xpath("//a[text()='Products Purchased']"));
+        chooseReportType("Products Purchased Report");
         waitForElement(reportTable);
     }
 
     public void openCustomerOrdersReport() {
-        click(By.xpath("//a[text()='Customer Orders']"));
+        chooseReportType("Customer Orders Report");
         waitForElement(reportTable);
     }
 
     public void openCustomerRewardPointsReport() {
-        click(By.xpath("//a[text()='Customer Reward Points']"));
+        chooseReportType("Customer Reward Points Report");
         waitForElement(reportTable);
     }
 
     public void filterReportsByDate(String from, String to) {
+        click(fromDateField);
         sendText(fromDateField, from);
+        click(toDateField);
         sendText(toDateField, to);
         click(reportsFilterBtn);
     }
 
     public void filterReportsByCustomer(String customer) {
+        click(reportCustomerField);
         sendText(reportCustomerField, customer);
         click(reportsFilterBtn);
     }
 
-    public void filterReportsByProduct(String product) {
-        sendText(productField, product);
-        click(reportsFilterBtn);
-    }
-
-    public boolean isProductInReport(String product) {
-        waitForElement(reportTableRows);
-        List<WebElement> rows = driver.findElements(reportTableRows);
-        for (WebElement row : rows) {
-            if (row.getText().contains(product)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isCustomerInReport(String customer) {
-        waitForElement(reportTableRows);
-        List<WebElement> rows = driver.findElements(reportTableRows);
+        waitForElement(reportTable);
+        List<WebElement> rows = driver.findElements(
+                By.cssSelector("#report table.table-bordered tbody tr")
+        );
         for (WebElement row : rows) {
             if (row.getText().contains(customer)) {
                 return true;

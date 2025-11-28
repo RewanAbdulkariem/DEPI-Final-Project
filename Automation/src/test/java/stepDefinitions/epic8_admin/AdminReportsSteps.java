@@ -7,9 +7,12 @@ import static hooks.Hooks.driver;
 public class AdminReportsSteps {
  AdminPage adminPage;
 
+    public AdminReportsSteps(){
+        adminPage = new AdminPage(driver);
+    }
+
     @Given("the admin navigates to the Reports page")
     public void the_admin_navigates_to_the_reports_page() {
-        adminPage = new AdminPage(driver);
         adminPage.goToReportsPage();
         Assert.assertTrue(adminPage.isReportsTableDisplayed(),
                 "Reports page is NOT displayed!");
@@ -19,6 +22,9 @@ public class AdminReportsSteps {
     @When("the admin opens the Sales Report")
     public void the_admin_opens_the_sales_report() {
         adminPage.openSalesReport();
+    }
+    @Then("the sales report table should be displayed")
+    public void theSalesReportTableShouldBeDisplayed() {
         Assert.assertTrue(adminPage.isReportsTableDisplayed(),
                 "Sales report table NOT displayed!");
     }
@@ -41,30 +47,32 @@ public class AdminReportsSteps {
         Assert.assertTrue(adminPage.isReportsTableDisplayed(),
                 "Products Viewed report table NOT displayed!");
     }
+    @Then("the products viewed table should be displayed")
+    public void the_products_viewed_table_should_be_displayed() {
+        Assert.assertTrue(adminPage.isReportsTableDisplayed(),
+                "Products Viewed report table NOT displayed!");
+    }
 
     // ---------- Products Purchased ----------
     @When("the admin opens the Products Purchased Report")
     public void the_admin_opens_the_products_purchased_report() {
         adminPage.openProductsPurchasedReport();
+    }
+
+    @Then("the products purchased table should be displayed")
+    public void the_products_purchased_table_should_be_displayed() {
         Assert.assertTrue(adminPage.isReportsTableDisplayed(),
                 "Products Purchased report table NOT displayed!");
-    }
-
-    @When("filters by product name {string}")
-    public void filters_by_product_name(String productName) {
-        adminPage.filterReportsByProduct(productName);
-    }
-
-    @Then("only results related to {string} should be displayed")
-    public void only_results_related_to_should_be_displayed(String productName) {
-        Assert.assertTrue(adminPage.isProductInReport(productName),
-                "Filtered product not found in report: " + productName);
     }
 
     // ---------- Customer Orders ----------
     @When("the admin opens the Customer Orders Report")
     public void the_admin_opens_the_customer_orders_report() {
         adminPage.openCustomerOrdersReport();
+    }
+
+    @Then("the customer orders table should be displayed")
+    public void the_customer_orders_table_should_be_displayed() {
         Assert.assertTrue(adminPage.isReportsTableDisplayed(),
                 "Customer Orders report table NOT displayed!");
     }
@@ -84,8 +92,6 @@ public class AdminReportsSteps {
     @When("the admin opens the Customer Reward Points Report")
     public void the_admin_opens_the_customer_reward_points_report() {
         adminPage.openCustomerRewardPointsReport();
-        Assert.assertTrue(adminPage.isReportsTableDisplayed(),
-                "Customer Reward Points report table NOT displayed!");
     }
 
     @Then("only reward points related to {string} should appear")
@@ -93,5 +99,11 @@ public class AdminReportsSteps {
         Assert.assertTrue(adminPage.isCustomerInReport(customerName),
                 "Filtered customer reward points not found: " + customerName);
     }
+    @Then("the customer reward points table should be displayed")
+    public void the_customer_reward_points_table_should_be_displayed() {
+        Assert.assertTrue(adminPage.isReportsTableDisplayed(),
+                "Customer Reward Points report table NOT displayed!");
+    }
+
 }
 

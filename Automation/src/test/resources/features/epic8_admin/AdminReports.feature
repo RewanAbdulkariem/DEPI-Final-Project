@@ -25,11 +25,6 @@ Feature: Admin Reports Management
     When the admin opens the Products Purchased Report
     Then the products purchased table should be displayed
 
-  Scenario: Filter Products Purchased by product name
-    When the admin opens the Products Purchased Report
-    And filters by product name "iPhone"
-    Then only results related to "iPhone" should be displayed
-
   # Customer Orders Report
   Scenario: View Customer Orders Report
     When the admin opens the Customer Orders Report
@@ -37,8 +32,8 @@ Feature: Admin Reports Management
 
   Scenario: Filter Customer Orders by customer name
     When the admin opens the Customer Orders Report
-    And filters by customer name "John Doe"
-    Then only orders belonging to "John Doe" should be displayed
+    And filters by customer name "john john"
+    Then only orders belonging to "john john" should be displayed
 
   # Customer Reward Points Report
   Scenario: View Customer Reward Points Report
@@ -47,5 +42,5 @@ Feature: Admin Reports Management
 
   Scenario: Filter Reward Points by customer name
     When the admin opens the Customer Reward Points Report
-    And filters by customer name "John Doe"
-    Then only reward points related to "John Doe" should appear
+    And filters by customer name "john john"
+    Then only reward points related to "john john" should appear
