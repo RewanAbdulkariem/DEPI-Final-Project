@@ -62,7 +62,7 @@ public class CheckoutPage extends HelpFunctions {
 
     public void clickShippingAdressContinueBtn() {
         WebElement continueBtn = waitToBeClickable(shippingAddressContinue);
-        waitToBeClickable(savedClientRadioBtn).click();
+        click(savedClientRadioBtn);
     }
     public void ensureShippingAddressData() {
         WebElement savedAddress = waitForElement(By.id("shipping-existing"));
@@ -91,17 +91,17 @@ public class CheckoutPage extends HelpFunctions {
 
     public void chooseShippingMethod() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("alert")));
-        waitToBeClickable(shippingMethodSelect).click();
-        waitToBeClickable(flatRateRadBtn).click();
-        waitToBeClickable(shippingMethodContinueBtn).click();
+        click(shippingMethodSelect);
+        click(flatRateRadBtn);
+        click(shippingMethodContinueBtn);
 
     }
 
     public void choosePaymentMethod() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("alert")));
-        waitToBeClickable(paymentMethodSelect).click();
-        waitToBeClickable(cashOnDeliveryRadioBtn).click();
-        waitToBeClickable(paymentMethodContinueBtn).click();
+        click(paymentMethodSelect);
+        click(cashOnDeliveryRadioBtn);
+        click(paymentMethodContinueBtn);
 
     }
 
@@ -113,10 +113,7 @@ public class CheckoutPage extends HelpFunctions {
     }
 
     public void clickConfirmOrder() {
-        WebElement button = waitForElement(confirmOrder);
-
-        Actions actions = new Actions(driver);
-        actions.moveToElement(waitToBeClickable(confirmOrder)).click().perform();
+        click(confirmOrder);
     }
 
     public void reviewOrderItems() {
@@ -126,9 +123,9 @@ public class CheckoutPage extends HelpFunctions {
 
 
     public void clickContinueBtn(){
-        waitToBeClickable(By.xpath("//a[text()='Continue']")).click();
+        click(By.xpath("//a[text()='Continue']"));
     }
     public String getCheckoutPageTitle(){
-        return waitForElement(checkoutPageTitle).getText();
+        return getText(checkoutPageTitle);
     }
 }
