@@ -1,0 +1,2096 @@
+{
+	"info": {
+		"_postman_id": "e2158acf-f6fc-41b2-bb0e-700e1a1ee10b",
+		"name": "OpenCart",
+		"description": "StartFragment\n\n# OpenCart API Documentation\n\n## Overview\n\nTo use the OpenCart API, enable it in the Admin panel:\n\n> 1\\. Navigate to System → Users → API. \n  \n> 2\\. You will see a predefined user named \"Default.\" \n  \n> 3\\. Edit the user, generate an API key, and set Status = Enabled. \n  \n> 4\\. Add your IP address to the list of allowed IPs. \n  \n\n---\n\n## 1\\. Authentication\n\n**Endpoint:** `api/login`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):**\n\n- username: API username configured in admin\n    \n- key: API key generated for the API user\n    \n\n**Response:**\n\n```\n{\n \"success\": \"Success: API session successfully started!\",\n \"api_token\": \"your_generated_token\"\n}\n\n ```\n\n---\n\n## 2\\. Currency\n\n**Endpoint:** `api/currency`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):**\n\n- currency: Currency code (e.g., USD, EUR)\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Your currency has been changed!\" }\n\n ```\n\n---\n\n## 3\\. Cart\n\n### Add Product\n\n**Endpoint:** `api/cart/add`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):** \n\n- product_id: The ID of the product to add\n    \n- quantity: Quantity (optional, default = 1)\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: You have modified your shopping cart!\" }\n\n ```\n\n### Edit Quantity\n\n**Endpoint:** `api/cart/edit`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):**\n\n- key: The cart ID for the product got from api/cart/products\n    \n- quantity: New quantity value\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: You have modified your shopping cart!\" }\n\n ```\n\n### Remove Product\n\n**Endpoint:** `api/cart/remove`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):** \n\n- key: The cart ID for the product got from api/cart/products\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: You have modified your shopping cart!\" }\n\n ```\n\n### View Cart\n\n**Endpoint:** `api/cart/products`  \n**Method:** `GET`\n\n**Response Example:**\n\n```\n{\n\"products\": [\n{\n\"cart_id\": \"15\",\n\"product_id\": \"43\",\n\"name\": \"MacBook\",\n\"model\": \"Product 16\",\n\"option\": [],\n\"quantity\": \"1\",\n\"stock\": true,\n\"shipping\": \"0\",\n\"price\": \"$602.00\",\n\"total\": \"$602.00\",\n\"reward\": 600\n}\n],\n\"vouchers\": [],\n\"totals\": [\n{\"title\": \"Sub-Total\",\"text\": \"$500.00\"},\n{\"title\": \"Eco Tax (-2.00)\",\"text\": \"$2.00\"},\n{\"title\": \"VAT (20%)\",\"text\": \"$100.00\"},\n{\"title\": \"Total\",\"text\": \"$602.00\"}\n]\n}\n\n ```\n\n---\n\n## 4\\. Coupon\n\n**Endpoint:** `api/coupon`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):** \n\n- coupon: Coupon code to apply (You got from Admin)\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Your coupon discount has been applied!\" }\n\n ```\n\n---\n\n## 5\\. Customer\n\n**Endpoint:** `api/customer`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):** \n\n- firstname: Customer first name\n    \n- lastname: Customer last name\n    \n- email: Customer email address\n    \n- telephone: Contact number\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Customer details have been set!\" }\n\n ```\n\n---\n\n## 6\\. Voucher\n\n### Apply Existing Voucher\n\n**Endpoint:** `api/voucher`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):**\n\n- voucher: Existing voucher code to apply (Get the code from admin panel)\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Your gift certificate discount has been applied!\" }\n\n ```\n\n### Add New Voucher to your cart\n\n**Endpoint:** `api/voucher/add`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):**\n\n- from_name: Sender name\n    \n- from_email: Sender email\n    \n- to_name: Recipient name\n    \n- to_email: Recipient email\n    \n- amount: Voucher amount\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: You have modified your shopping cart!\" }\n\n ```\n\n---\n\n## 7\\. Shipping\n\n### Set Shipping Address\n\n**Endpoint:** `api/shipping/address`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):** \n\n- firstname: First name\n    \n- lastname: Last name\n    \n- address_1: Address line 1\n    \n- city: City name\n    \n- postcode: Postal code\n    \n- country_id: Country ID\n    \n- zone_id: Zone/State ID\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Shipping address has been set!\" }\n\n ```\n\n### Get Shipping Methods\n\n**Endpoint:** `api/shipping/methods`  \n**Method:** `POST`\n\n**Response Example:**\n\n```\n{\n \"shipping_methods\": {\n \"flat\": {\n \"title\": \"Flat Rate\",\n \"quote\": {\n \"flat\": {\n \"code\": \"flat.flat\",\n\"title\": \"Flat Shipping Rate\",\n\"cost\": \"5.00\",\n\"tax_class_id\": \"9\",\n\"text\": \"$8.00\"\n }\n },\n \"sort_order\": \"1\",\n \"error\": false\n }\n }\n}\n\n ```\n\n### Set Shipping Method\n\n**Endpoint:** `api/shipping/method`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):** \n\n- shipping_method: Shipping method code (e.g., flat.flat)\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Shipping method has been set!\" }\n\n ```\n\n---\n\n## 8\\. Payment\n\n### Set Payment Address\n\n**Endpoint:** `api/payment/address`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):**\n\n- firstname: First name\n    \n- lastname : Last name\n    \n- address_1: Address line 1\n    \n- city: City name\n    \n- country_id: Country ID\n    \n- postcode: Post code\n    \n- zone_id: Zone/State ID\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Payment address has been set!\" }\n\n ```\n\n### Get Payment Methods\n\n**Endpoint:** `api/payment/methods`  \n**Method:** `POST`\n\n**Response Example:**\n\n```\n{\n \"cod\":{\n\"code\": \"cod\",\n\"title\": \"Cash On Delivery\",\n\"terms\": \"\",\n\"sort_order\": \"\"\n}\n}\n\n ```\n\n### Set Payment Method\n\n**Endpoint:** `api/payment/method`  \n**Method:** `POST`\n\n**Body (x-www-form-urlencoded):**\n\n- payment_method : Payment method code (e.g., cod)\n    \n\n**Response:**\n\n```\n{ \"success\": \"Success: Payment method has been set!\" }\n\n ```\n\n---\n\n## 9\\. Order\n\n### Create Order\n\n**Endpoint:** `api/order/add`  \n**Method:** `POST`\n\n**Response:**\n\n```\n{\n \"success\": \"Success: You have modified orders!\",\n \"order_id\": 1\n}\n\n ```\n\n### Get Order Info\n\n**Endpoints:** - `api/order/info` - `/api/order/edit` - `/api/order/delete` - `/api/order/history`\n\n> \n\n⚠️ _Information missing from official documentation._",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48576612",
+		"_collection_link": "https://rewan-khaled2001-3593076.postman.co/workspace/5e170e2e-544f-47ac-a8ba-3300a005b899/collection/48576612-e2158acf-f6fc-41b2-bb0e-700e1a1ee10b?action=share&source=collection_link&creator=48576612"
+	},
+	"item": [
+		{
+			"name": "OpenCart - Valid Flow",
+			"item": [
+				{
+					"name": "Login - Generate Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Validate response format\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Check token exists\r",
+									"let jsonData = pm.response.json();\r",
+									"pm.test(\"API token is present\", function () {\r",
+									"    pm.expect(jsonData.api_token).to.exist;\r",
+									"    pm.expect(jsonData.api_token).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// Save token to environment\r",
+									"if (jsonData.api_token) {\r",
+									"    pm.collectionVariables.set(\"api_token\", jsonData.api_token);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "Default",
+									"type": "text"
+								},
+								{
+									"key": "key",
+									"value": "Un93lyqQOVP1WHD1i3ZhvpbUAgfAxqGjVqno1KTGFA6rCZFINJEdvQsoqIhhCiU3DEHavsLHH6YrbnzgntNzavmNAzvedhfoW0EtLWltl8YcxzcGT9buX3ifGBmfo1xScbRd0lmQe5Ka19uZA7JNS1EkSfDBYk01r9B1IzW1EKUwOOVIuU3uffAYAdButpWnnIu5cl7dPlM4z9m72N1Sw4wma1d1R5L7oBkBS1a0muouROMWxd8XnuqDPa7DzHqx",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/login",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Currency - Change to USD",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verify status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Validate response format",
+									"pm.test(\"Response is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"// Message confirms currency change",
+									"pm.test(\"Currency changed successfully\", function () {",
+									"    let response = pm.response.json();",
+									"    pm.expect(response).to.have.property(\"success\");",
+									"    pm.expect(response.success).to.include(\"currency has been changed\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "currency",
+									"value": "USD",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/currency&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"currency&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer - Set Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code \r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Response is JSON\r",
+									"pm.test(\"Response body is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Verify success message\r",
+									"pm.test(\"Response contains success message\", function () {\r",
+									"    let response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"modified customers\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstname",
+									"value": "Rewan",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "QA",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "rewan.qa@test.com",
+									"type": "text"
+								},
+								{
+									"key": "telephone",
+									"value": "01000000000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/customer&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"customer&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Add Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code \r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"// Ensure JSON format\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Verify success message\r",
+									"pm.test(\"Response contains success message\", function () {\r",
+									"    let response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"modified your shopping\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_id",
+									"value": "43",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/cart/add&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"add&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse response JSON once and reuse",
+									"let response;",
+									"pm.test(\"Parse response JSON\", function () {",
+									"    // Ensure body is JSON and parse it",
+									"    pm.response.to.be.json;",
+									"    response = pm.response.json();",
+									"    pm.expect(response).to.be.an(\"object\");",
+									"});",
+									"",
+									"// Validate response status",
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Validate products array exists and has at least one product",
+									"pm.test(\"Products array exists and has at least one item\", function () {",
+									"    pm.expect(response).to.have.property(\"products\");",
+									"    pm.expect(response.products).to.be.an(\"array\");",
+									"    pm.expect(response.products.length, \"products length\").to.be.above(0);",
+									"});",
+									"",
+									"// Each product has required fields and valid quantity",
+									"pm.test(\"Each product has required fields\", function () {",
+									"    response.products.forEach((p, idx) => {",
+									"        pm.expect(p, `product[${idx}]`).to.be.an(\"object\");",
+									"        pm.expect(p).to.have.property(\"cart_id\");",
+									"        pm.expect(p).to.have.property(\"product_id\");",
+									"        pm.expect(p).to.have.property(\"name\");",
+									"        pm.expect(p).to.have.property(\"price\");",
+									"        pm.expect(p).to.have.property(\"quantity\");",
+									"        // quantity should be a number > 0 (coerce strings like \"1\")",
+									"        pm.expect(Number(p.quantity), `quantity of product[${idx}]`).to.be.above(0);",
+									"    });",
+									"});",
+									"",
+									"// All products are in stock",
+									"pm.test(\"All products are in stock\", function () {",
+									"    response.products.forEach((p, idx) => {",
+									"        pm.expect(p).to.have.property(\"stock\");",
+									"        pm.expect(p.stock, `stock of product[${idx}]`).to.eql(true);",
+									"    });",
+									"});",
+									"",
+									"// Total matches sum of product totals",
+									"pm.test(\"Total matches sum of product totals\", function () {",
+									"    const sumOfTotals = response.products.reduce((sum, p) => {",
+									"        const priceNum = typeof p.total === \"number\" ? p.total : Number(String(p.total).replace(/[^0-9.\\-]/g, \"\"));",
+									"        return sum + (isNaN(priceNum) ? 0 : priceNum);",
+									"    }, 0);",
+									"",
+									"    pm.expect(response).to.have.property(\"totals\");",
+									"    pm.expect(response.totals).to.be.an(\"array\");",
+									"    const totalRow = response.totals.find(t => t && t.title === \"Total\");",
+									"    pm.expect(totalRow, '\"Total\" row exists in totals').to.exist;",
+									"    const totalFromAPI = typeof totalRow.text === \"number\" ? totalRow.text : Number(String(totalRow.text).replace(/[^0-9.\\-]/g, \"\"));",
+									"",
+									"    pm.expect(sumOfTotals).to.eql(totalFromAPI);",
+									"});",
+									"",
+									"// Set collection variables for downstream requests",
+									"if (response && Array.isArray(response.products) && response.products.length > 0) {",
+									"    pm.collectionVariables.set(\"product_id\", String(response.products[0].product_id));",
+									"    pm.collectionVariables.set(\"cart_id\", String(response.products[0].cart_id));",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/cart/products&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"products&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Edit Product Quantity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate response status",
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Parse response JSON once and reuse",
+									"let response;",
+									"pm.test(\"Parse response JSON\", function () {",
+									"    // Ensure body is JSON and parse it",
+									"    pm.response.to.be.json;",
+									"    response = pm.response.json();",
+									"    pm.expect(response).to.be.an(\"object\");",
+									"});",
+									"",
+									"pm.test(\"Response contains success message\", function () {",
+									"    pm.expect(response).to.have.property(\"success\");",
+									"    pm.expect(response.success).to.include(\"modified\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "key",
+									"value": "{{cart_id}}",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/cart/edit&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"edit&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Products Quantity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"let cart;",
+									"pm.test(\"Parse response JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"    cart = pm.response.json();",
+									"    pm.expect(cart).to.be.an(\"object\");",
+									"});",
+									"",
+									"pm.test(\"Cart contains products\", function () {",
+									"    pm.expect(cart.products.length).to.be.above(0);",
+									"});",
+									"let cartId = pm.collectionVariables.get(\"cart_id\");",
+									"let product = cart.products.find(p => p.cart_id === cartId);",
+									"pm.test(\"Quantity updated successfully\", function () {",
+									"    pm.expect(product.quantity).to.eql(\"3\");",
+									"    });"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/cart/products&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"products&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Remove Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate response status\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Parse response JSON once and reuse\r",
+									"let response;\r",
+									"pm.test(\"Parse response JSON\", function () {\r",
+									"    // Ensure body is JSON and parse it\r",
+									"    pm.response.to.be.json;\r",
+									"    response = pm.response.json();\r",
+									"    pm.expect(response).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains success message\", function () {\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success.toLowerCase()).to.include(\"modified\");\r",
+									"});\r",
+									"\r",
+									"//Re-verify Cart Contents\r",
+									"pm.sendRequest({\r",
+									"    url: pm.collectionVariables.get(\"BaseURL\") + \"api/cart/products&api_token=\" + pm.collectionVariables.get(\"api_token\"),\r",
+									"    method: \"POST\"\r",
+									"}, function (err, res) {\r",
+									"        let cart = res.json();\r",
+									"        pm.test(\"Product successfully removed from cart\", function () {\r",
+									"            const exists = cart.products.find(p => p.cart_id === pm.collectionVariables.get(\"cart_id\"));\r",
+									"            pm.expect(exists).to.eql(undefined);\r",
+									"        });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "key",
+									"value": "{{cart_id}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/cart/remove&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"remove&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add-to-Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"let response;\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.expect(() => {\r",
+									"        response = pm.response.json();\r",
+									"    }).to.not.throw();\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains success message\", function () {\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"modified your shopping\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_id",
+									"value": "46",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/cart/add&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"add&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Coupon - Apply Fixed Coupon",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate response status\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Parse JSON\r",
+									"let response;\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    response = pm.response.json();\r",
+									"    pm.expect(response).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response contains success message\", function () {\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"coupon\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "coupon",
+									"value": "1111",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/coupon&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"coupon&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart-Products After Coupon",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate response status\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let cart;\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    cart = pm.response.json();\r",
+									"    pm.expect(cart).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Coupon applied successfully\", function () {\r",
+									"    pm.expect(cart.totals.some(t => t.title.includes(\"Coupon\"))).to.be.true;\r",
+									"});\r",
+									"pm.test(\"Coupon value is correct\", function () {\r",
+									"    const coupon = cart.totals.find(t => t.title.includes(\"Coupon\"));\r",
+									"    pm.expect(coupon.text).to.eql(\"$-10.00\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Parse totals for calculations\r",
+									"const totals = cart.totals;\r",
+									"function parseValue(text) {\r",
+									"    return parseFloat(text.replace(/[^\\d.-]/g, \"\"));\r",
+									"}\r",
+									"\r",
+									"const subtotal = parseValue(totals.find(t => t.title.includes(\"Sub-Total\")).text);\r",
+									"const couponValue = parseValue(totals.find(t => t.title.includes(\"Coupon\")).text);\r",
+									"const ecoTax = parseValue(totals.find(t => t.title.includes(\"Eco Tax\")).text);\r",
+									"const vatValue = parseValue(totals.find(t => t.title.includes(\"VAT\")).text);\r",
+									"const total = parseValue(totals.find(t => t.title === \"Total\").text);\r",
+									"\r",
+									"\r",
+									"// Calculate expected VAT (20% of subtotal after discount)\r",
+									"const expectedVat = (subtotal + couponValue) * 0.20;\r",
+									"\r",
+									"// Calculate expected VAT (20% of subtotal after discount)\r",
+									"pm.test(\"VAT is 20% of subtotal after discount\", function () {\r",
+									"    pm.expect(Math.abs(vatValue - expectedVat)).to.be.below(0.5);\r",
+									"});\r",
+									"\r",
+									"// Calculate expected total\r",
+									"const expectedTotal = subtotal + couponValue + ecoTax + expectedVat;\r",
+									"pm.test(\"Total is calculated correctly\", function () {\r",
+									"    pm.expect(Math.abs(total - expectedTotal)).to.be.below(0.5);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/cart/products&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"products&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Voucher",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// Parse JSON\r",
+									"let response;\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    response = pm.response.json();\r",
+									"    pm.expect(response).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// Check success message\r",
+									"pm.test(\"Voucher applied successfully\", () => {\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success.toLowerCase()).to.include(\"gift voucher\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "voucher",
+									"value": "Test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/voucher&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"voucher&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart-Products After Voucher",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate response status\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let cart;\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    cart = pm.response.json();\r",
+									"    pm.expect(cart).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// Check that voucher (Gift Certificate) is applied\r",
+									"pm.test(\"Voucher applied successfully\", function () {\r",
+									"    const foundVoucher = cart.totals.some(t => t.title.includes(\"Gift Certificate\"));\r",
+									"    pm.expect(foundVoucher).to.be.true;\r",
+									"});\r",
+									"\r",
+									"// Verify voucher value is correct (-$100)\r",
+									"pm.test(\"Voucher value is correct\", function () {\r",
+									"    const voucher = cart.totals.find(t => t.title.includes(\"Gift Certificate\"));\r",
+									"    pm.expect(voucher.text).to.eql(\"$-100.00\");\r",
+									"});\r",
+									"\r",
+									"// Parse totals for calculations\r",
+									"const totals = cart.totals;\r",
+									"function parseValue(text) {\r",
+									"    return parseFloat(text.replace(/[^\\d.-]/g, \"\"));\r",
+									"}\r",
+									"\r",
+									"const subtotal = parseValue(totals.find(t => t.title.includes(\"Sub-Total\")).text);\r",
+									"const couponValue = parseValue(totals.find(t => t.title.includes(\"Coupon\")).text);\r",
+									"const voucherValue = parseValue(totals.find(t => t.title.includes(\"Gift Certificate\")).text);\r",
+									"const ecoTax = parseValue(totals.find(t => t.title.includes(\"Eco Tax\")).text);\r",
+									"const vatValue = parseValue(totals.find(t => t.title.includes(\"VAT\")).text);\r",
+									"const total = parseValue(totals.find(t => t.title === \"Total\").text);\r",
+									"\r",
+									"// Calculate expected VAT (20% of subtotal)\r",
+									"const expectedVat = (subtotal + couponValue) * 0.20;\r",
+									"pm.test(\"VAT is 20% of subtotal\", function () {\r",
+									"    pm.expect(Math.abs(vatValue - expectedVat)).to.be.below(0.5);\r",
+									"});\r",
+									"\r",
+									"// Calculate expected total\r",
+									"const expectedTotal = subtotal + couponValue + voucherValue + ecoTax + expectedVat;\r",
+									"pm.test(\"Total is calculated correctly\", function () {\r",
+									"    pm.expect(Math.abs(total - expectedTotal)).to.be.below(0.5);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/cart/products&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"products&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add-Voucher",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate response status\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Validate that response is JSON\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Check for success message\r",
+									"pm.test(\"Voucher added successfully\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"success\");\r",
+									"    pm.expect(jsonData.success).to.include(\"modified\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from_name",
+									"value": "MyOpenCart Admin",
+									"type": "text"
+								},
+								{
+									"key": "from_email",
+									"value": "admin@example.com",
+									"type": "text"
+								},
+								{
+									"key": "to_name",
+									"value": "Dear Customer",
+									"type": "text"
+								},
+								{
+									"key": "to_email",
+									"value": "customer@example.com",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "125",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/voucher/add&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"voucher",
+								"add&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart-Products After buying Voucher",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate response status\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Validate JSON response\r",
+									"let cart;\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    cart = pm.response.json();\r",
+									"    pm.expect(cart).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// Check that vouchers exist\r",
+									"pm.test(\"Vouchers are added to the cart\", function () {\r",
+									"    pm.expect(cart.vouchers).to.exist;\r",
+									"    pm.expect(cart.vouchers).to.be.an(\"array\");\r",
+									"    pm.expect(cart.vouchers.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Check voucher details structure\r",
+									"pm.test(\"Each voucher has required fields\", function () {\r",
+									"    cart.vouchers.forEach(v => {\r",
+									"        pm.expect(v).to.have.property(\"from_name\");\r",
+									"        pm.expect(v).to.have.property(\"from_email\");\r",
+									"        pm.expect(v).to.have.property(\"to_name\");\r",
+									"        pm.expect(v).to.have.property(\"to_email\");\r",
+									"        pm.expect(v).to.have.property(\"amount\");\r",
+									"        pm.expect(v.amount).to.be.above(0);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Parse numeric values for validation\r",
+									"function parseValue(text) {\r",
+									"    return parseFloat(text.replace(/[^\\d.-]/g, \"\"));\r",
+									"}\r",
+									"\r",
+									"const totals = cart.totals;\r",
+									"\r",
+									"const subtotal = parseValue(totals.find(t => t.title.includes(\"Sub-Total\")).text);\r",
+									"const couponValue = parseValue(totals.find(t => t.title.includes(\"Coupon\")).text);\r",
+									"const voucherValue = parseValue(totals.find(t => t.title.includes(\"Gift Certificate\")).text);\r",
+									"const ecoTax = parseValue(totals.find(t => t.title.includes(\"Eco Tax\")).text);\r",
+									"const vatValue = parseValue(totals.find(t => t.title.includes(\"VAT\")).text);\r",
+									"const giftCertificateValue = parseValue(cart.vouchers.find(t => t.title && t.title.includes(\"Gift Certificate\")) ? cart.vouchers.find(t => t.title && t.title.includes(\"Gift Certificate\")).text : \"0\");\r",
+									"const total = parseValue(totals.find(t => t.title === \"Total\").text);\r",
+									"\r",
+									"\r",
+									"\r",
+									"//Validate total calculation\r",
+									"pm.test(\"Total includes voucher price correctly\", () => {\r",
+									"    const expectedTotal = subtotal + couponValue + voucherValue + giftCertificateValue + ecoTax + vatValue;\r",
+									"    pm.expect(Math.abs(total - expectedTotal)).to.be.below(0.5);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/cart/products&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"products&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Shipping-Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check that request succeeded\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check that response is JSON\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Check for success message\r",
+									"pm.test(\"Shipping address set successfully\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"Shipping address\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstname",
+									"value": "John",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "Doe",
+									"type": "text"
+								},
+								{
+									"key": "address_1",
+									"value": "123 Test Street",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "KLD",
+									"type": "text"
+								},
+								{
+									"key": "country_id",
+									"value": "222",
+									"type": "text"
+								},
+								{
+									"key": "zone_id",
+									"value": "3563",
+									"type": "text"
+								},
+								{
+									"key": "postcode",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/shipping/address&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"shipping",
+								"address&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Shipping-methods",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check that request succeeded\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check that response is JSON\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"const data = pm.response.json();\r",
+									"\r",
+									"// Check that shipping methods exist\r",
+									"pm.test(\"Shipping methods are returned\", () => {\r",
+									"    pm.expect(data.shipping_methods).to.exist;\r",
+									"    pm.expect(data.shipping_methods).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// Check that Flat Rate shipping exists\r",
+									"pm.test(\"Flat Rate shipping method is available\", () => {\r",
+									"    const flat = data.shipping_methods.flat;\r",
+									"    pm.expect(flat).to.exist;\r",
+									"    pm.expect(flat.title).to.eql(\"Flat Rate\");\r",
+									"    pm.expect(flat.error).to.be.false;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/shipping/methods&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"shipping",
+								"methods&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Shipping-method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check that request succeeded\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check that response is JSON\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Check for success message\r",
+									"pm.test(\"Shipping method has been set successfully\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"Shipping method\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "shipping_method",
+									"value": "flat.flat",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/shipping/method&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"shipping",
+								"method&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment-Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check that request succeeded\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check that response is JSON\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Check for success message\r",
+									"pm.test(\"Payment address has been set successfully\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"Payment address\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstname",
+									"value": "Customer",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "Dear",
+									"type": "text"
+								},
+								{
+									"key": "address_1",
+									"value": "Somewhere",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "KLD",
+									"type": "text"
+								},
+								{
+									"key": "country_id",
+									"value": "222",
+									"type": "text"
+								},
+								{
+									"key": "zone_id",
+									"value": "3563",
+									"type": "text"
+								},
+								{
+									"key": "postcode",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/payment/address&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"payment",
+								"address&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment_methods",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check that request succeeded\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check that response is JSON\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Payment methods exist\", function () {\r",
+									"    pm.expect(response.payment_methods).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Check if Cash On Delivery method is available and has correct details.\r",
+									"pm.test(\"Cash On Delivery method is available\", function () {\r",
+									"    const cod = response.payment_methods.cod;\r",
+									"    pm.expect(cod.code).to.eql(\"cod\");\r",
+									"    pm.expect(cod.title).to.eql(\"Cash On Delivery\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/payment/methods&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"payment",
+								"methods&api_token={{api_token}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment_method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check that request succeeded\r",
+									"pm.test(\"Status code is 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check that response is JSON\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Check for success message\r",
+									"pm.test(\"Payment method has been set successfully\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"success\");\r",
+									"    pm.expect(response.success).to.include(\"Payment method\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "payment_method",
+									"value": "cod",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/payment/method&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"payment",
+								"method&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add-Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"let responseText = pm.response.text();",
+									"",
+									"let jsonStart = responseText.indexOf('{');",
+									"let cleanJson = responseText.substring(jsonStart);",
+									"",
+									"let response;",
+									"pm.test(\"Response is valid JSON\", function () {",
+									"    pm.expect(() => {",
+									"        response = JSON.parse(cleanJson);",
+									"    }).to.not.throw();",
+									"});",
+									"",
+									"if (response && response.order_id) {",
+									"    pm.test(\"Order created successfully\", function () {",
+									"        pm.expect(response).to.have.property(\"success\");",
+									"        pm.expect(response.order_id).to.be.a(\"number\");",
+									"    });",
+									"",
+									"    pm.collectionVariables.set(\"order_id\", response.order_id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}api/order/add&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"order",
+								"add&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OpenCart - Negative Tests",
+			"item": [
+				{
+					"name": "Login - Invalid Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code should be 401 Unauthorized\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"// Validate response format\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"pm.test(\"Error message indicates invalid key\", function () {\r",
+									"    pm.expect(response).to.have.property(\"error\");\r",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"invalid\");\r",
+									"});\r",
+									"\r",
+									"// Token should NOT be set\r",
+									"pm.test(\"No API token returned\", function () {\r",
+									"    pm.expect(response.api_token).to.be.undefined;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "Default",
+									"type": "text"
+								},
+								{
+									"key": "key",
+									"value": "xyz",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/login",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Currency - Invalid Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code",
+									"pm.test(\"Status code should be 4xx\", function () {",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);",
+									"});",
+									"",
+									"// Validate response format",
+									"pm.test(\"Response is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"// Validate error message",
+									"pm.test(\"Error message indicates invalid currency\", function () {",
+									"    let response = pm.response.json();",
+									"    pm.expect(response).to.have.property(\"error\");",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"invalid\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "currency",
+									"value": "ABC",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/currency&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"currency&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Currency - Missing Parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code",
+									"pm.test(\"Status code should be 4xx\", function () {",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);",
+									"});",
+									"",
+									"// Validate response format",
+									"pm.test(\"Response is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"// Validate error message",
+									"pm.test(\"Error message should mention missing or invalid currency\", function () {",
+									"    let response = pm.response.json();",
+									"    pm.expect(response).to.have.property(\"error\");",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"invalid\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/currency&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"currency&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Currency - Missing Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code",
+									"pm.test(\"Status code should be 401 Unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"// Validate response format",
+									"pm.test(\"Response is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"// Validate error message",
+									"pm.test(\"Error message indicates unauthorized access\", function () {",
+									"    let response;",
+									"    response = pm.response.json();",
+									"    pm.expect(response).to.have.property(\"error\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "currency",
+									"value": "USD",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/currency",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"currency"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer – Missing Required Field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code should be 4xx\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Ensure JSON format\r",
+									"pm.test(\"Response format is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Validate that firstname error is present\r",
+									"pm.test(\"Validation error for missing firstname\", function () {\r",
+									"    let response = pm.response.json();\r",
+									"\r",
+									"    pm.expect(response).to.have.property(\"error\");\r",
+									"    pm.expect(response.error).to.have.property(\"firstname\");\r",
+									"    pm.expect(response.error.firstname.toLowerCase()).to.include(\"first name\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstname",
+									"value": "Rewan",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "lastname",
+									"value": "QA",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "rewan.qa@test.com",
+									"type": "text"
+								},
+								{
+									"key": "telephone",
+									"value": "01000000000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/customer&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"customer&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Add Product Invalid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code should be 4xx\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);\r",
+									"});\r",
+									"\r",
+									"// Ensure JSON response\r",
+									"pm.test(\"Response format is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Validate error message\r",
+									"pm.test(\"Error message indicates product not found\", function () {\r",
+									"    let response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"error\");\r",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"product\");\r",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"not found\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_id",
+									"value": "9999",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/cart/add&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"add&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Add Product Missing ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code should be 4xx\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);\r",
+									"});\r",
+									"\r",
+									"// Ensure JSON response\r",
+									"pm.test(\"Response format is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Validate error message\r",
+									"pm.test(\"Error message should be present\", function () {\r",
+									"    let response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"error\");\r",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"product\");\r",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"required\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_id",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/cart/add&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"add&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cart - Add Product Negative quantity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code should be 4xx\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);\r",
+									"});\r",
+									"\r",
+									"// Ensure JSON response\r",
+									"pm.test(\"Response format is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Validate error message\r",
+									"pm.test(\"Error message should be present\", function () {\r",
+									"    let response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property(\"error\");\r",
+									"    pm.expect(response.error.toLowerCase()).to.include(\"quantity\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_id",
+									"value": "43",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "-5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/cart/add&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"cart",
+								"add&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Coupon - Invalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate status code\r",
+									"pm.test(\"Status code should be 4xx\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Parse JSON\r",
+									"let response;\r",
+									"pm.test(\"Response is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    response = pm.response.json();\r",
+									"    pm.expect(response).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Verify error message exists\r",
+									"pm.test(\"Response contains error message for invalid coupon\", () => {\r",
+									"    pm.expect(response).to.have.property(\"error\");\r",
+									"    const errorMsg = response.error.toLowerCase();\r",
+									"    pm.expect(errorMsg).to.include(\"invalid\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "coupon",
+									"value": "22222",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}api/coupon&api_token={{api_token}}",
+							"host": [
+								"{{BaseURL}}api"
+							],
+							"path": [
+								"coupon&api_token={{api_token}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseURL",
+			"value": ""
+		},
+		{
+			"key": "api_token",
+			"value": ""
+		},
+		{
+			"key": "product_id",
+			"value": ""
+		},
+		{
+			"key": "cart_id",
+			"value": ""
+		},
+		{
+			"key": "order_id",
+			"value": ""
+		}
+	]
+}
