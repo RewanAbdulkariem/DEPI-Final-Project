@@ -8,12 +8,13 @@ import static config.TestConfig.get;
 
 public class AdminOrdersSteps {
 AdminPage adminPage;
+
+public AdminOrdersSteps(){
+    adminPage = new AdminPage(driver);
+}
+
 @Given("the admin is logged in successfully")
 public void the_admin_is_logged_in_successfully() {
-    adminPage = new AdminPage(driver);
-  if (adminPage == null) {
-        adminPage = new AdminPage(driver);
-    }
     adminPage.enterUsername(get("admin.username"));
     adminPage.enterPassword(get("admin.password"));
 
@@ -27,7 +28,6 @@ public void the_admin_is_logged_in_successfully() {
 
     @Given("the admin navigates to the Orders page")
     public void the_admin_navigates_to_the_orders_page() {
-        adminPage = new AdminPage(driver);
         adminPage.goToOrdersPage();
 
         Assert.assertTrue(
@@ -90,12 +90,12 @@ public void the_admin_is_logged_in_successfully() {
 
     @When("the admin changes the order status to {string}")
     public void the_admin_changes_the_order_status_to(String status) {
-        // adminPage.changeOrderStatus(status);
+        adminPage.selectOrderStatus(status);
     }
 
     @When("clicks the Save button")
     public void clicks_the_save_button() {
-        adminPage.clickSaveOrder();
+        adminPage.clickAddHistiry();
     }
 
     @Then("a success message should appear saying {string}")

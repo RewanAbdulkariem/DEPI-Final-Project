@@ -4,7 +4,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-        features = "src/test/resources/features/epic8_admin/AdminProductManagement.feature",
+        features = "src/test/resources/features/epic8_admin/AdminOrders.feature",
         glue = {"stepDefinitions", "hooks"}  ,
         plugin = {"pretty", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
         //tags = "not @admin"

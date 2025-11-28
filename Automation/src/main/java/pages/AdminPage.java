@@ -2,6 +2,7 @@ package pages;
 
 import base.HelpFunctions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -147,7 +148,7 @@ public class AdminPage extends HelpFunctions {
         try {
             By cellLocator = By.xpath("//form[@id='form-product']//table//tbody//tr//td[contains(normalize-space(.), '"
                     + productName + "')]");
-            wait.until(ExpectedConditions.visibilityOfElementLocated(cellLocator));
+            waitForElement(cellLocator);
             return true;
         } catch (Exception e) {
             return false;
@@ -212,31 +213,37 @@ public class AdminPage extends HelpFunctions {
 
     private By salesMenu          = By.id("menu-sale");
     private By ordersMenu         = By.xpath("//a[text()='Orders']");
-    private By ordersTableRows    = By.cssSelector("form#form-order table.table-bordered.table-hover tbody tr");
-    private By viewButtonInRow    = By.cssSelector("td.text-end a.btn.btn-primary[aria-label='View']");
 
-    private By orderStatusDropdown = By.id("input-order-status");
-    private By saveOrderButton     = By.cssSelector("button[data-bs-original-title='Save']");
+    private By ordersTableRows    = By.cssSelector("form#form-order table.table-bordered.table-hover tbody tr");
+
 
     private By orderIdField        = By.id("input-order-id");
-    private By orderFilterButton   = By.id("button-filter");
     private By customerField       = By.id("input-customer");
+    private By orderFilterButton   = By.id("button-filter");
 
+    private By orderStatusDropdown = By.id("input-order-status");
+    private By addHistoryButton = By.id("button-history");
+
+// ---------- Navigation ----------
     public void goToOrdersPage() {
         click(salesMenu);
+        waitForElement(ordersMenu);
         click(ordersMenu);
         // ممكن تنتظر الجدول
-        // waitForElement(ordersTableRows);
+        waitForElement(ordersTableRows);
     }
 
+// ---------- Table visibility ----------
     public boolean isOrdersTableDisplayed() {
         try {
-            return driver.findElements(ordersTableRows).size() > 0;
+            waitForElement(ordersTableRows);
+            return !driver.findElements(ordersTableRows).isEmpty();
         } catch (Exception e) {
             return false;
         }
     }
 
+// ---------- Filter by Order ID ----------
     public void searchOrderByID(String orderId) {
         sendText(orderIdField, orderId);
         click(orderFilterButton);
@@ -244,28 +251,44 @@ public class AdminPage extends HelpFunctions {
     }
 
     public boolean isOrderPresent(String orderId) {
-        waitForElement(ordersTableRows);
-        List<WebElement> rows = driver.findElements(ordersTableRows);
-        for (WebElement row : rows) {
-            if (row.getText().contains(orderId)) {
-                return true;
+        int attempts = 0;
+
+        while (attempts < 3) {
+            try {
+                waitForElement(ordersTableRows);
+                List<WebElement> rows = driver.findElements(ordersTableRows);
+
+                for (WebElement row : rows) {
+                    // العمود التاني فيه الـ Order ID زي اللي في الـ screenshot
+                    WebElement idCell = row.findElement(By.cssSelector("td:nth-child(2)"));
+                    String actualId = idCell.getText().trim();
+                    if (actualId.equals(orderId)) {
+                        return true;
+                    }
+                }
+                // مفيش صف بالـ ID ده
+                return false;
+
+            } catch (StaleElementReferenceException e) {
+                attempts++;
+                if (attempts == 3) {
+                    throw e; // بعد 3 محاولات سيبي التست يفشل
+                }
             }
         }
         return false;
     }
 
-    public void openOrderDetails(String orderId) {
-        searchOrderByID(orderId);
-        List<WebElement> rows = driver.findElements(ordersTableRows);
-        for (WebElement row : rows) {
-            if (row.getText().contains(orderId)) {
-                WebElement viewBtn = row.findElement(viewButtonInRow);
-                viewBtn.click();
-                break;
-            }
-        }
-    }
 
+// ---------- Open order details ----------
+    public void openOrderDetails(String orderId) {
+        By viewBtnInRow = By.xpath(
+                "//*[@id='form-order']//tbody//tr[td[2][normalize-space()='" + orderId + "']]//td[9]//a"
+        );
+
+        click(viewBtnInRow);
+    }
+    // ---------- Order details page ----------
     public boolean isOrderDetailsPageDisplayed() {
         return driver.findElements(orderStatusDropdown).size() > 0;
     }
@@ -274,8 +297,8 @@ public class AdminPage extends HelpFunctions {
         selectFromDropDownMenu(orderStatusDropdown, status);
     }
 
-    public void clickSaveOrder() {
-        click(saveOrderButton);
+    public void clickAddHistiry() {
+        click(addHistoryButton);
     }
 
     public void searchOrderByCustomer(String customerName) {
@@ -288,12 +311,15 @@ public class AdminPage extends HelpFunctions {
         waitForElement(ordersTableRows);
         List<WebElement> rows = driver.findElements(ordersTableRows);
         for (WebElement row : rows) {
-            if (row.getText().contains(customerName)) {
+            WebElement customerCell = row.findElement(By.cssSelector("td:nth-child(4)"));
+            String actual = customerCell.getText().toLowerCase().trim();
+            if (actual.contains(customerName.toLowerCase().trim())) {
                 return true;
             }
         }
         return false;
     }
+
 
     // ===========================
     // ========== REPORTS =========
