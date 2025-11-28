@@ -31,6 +31,7 @@ Feature: Admin Product Management
   Scenario: Edit an existing product
     Given a product named "Test Product" exists
     When the admin clicks the Edit button for "Test Product"
+    And navigates to the Data tab
     And changes the model to "TP-2002"
     And clicks Save
     Then a success message should appear saying "Success: You have modified products!"
@@ -47,6 +48,7 @@ Feature: Admin Product Management
   Scenario: Disable a product
     Given a product named "iPhone" exists
     When the admin clicks the Edit button for "iPhone"
+    And navigates to the Data tab
     And changes the product status to "Disabled"
     And clicks Save
     Then a success message should appear saying "Success: You have modified products!"
@@ -54,6 +56,7 @@ Feature: Admin Product Management
   Scenario: Enable a product
     Given a product named "iPhone" exists
     When the admin clicks the Edit button for "iPhone"
+    And navigates to the Data tab
     And changes the product status to "Enabled"
     And clicks Save
     Then a success message should appear saying "Success: You have modified products!"

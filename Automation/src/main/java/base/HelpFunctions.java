@@ -50,11 +50,15 @@ public class HelpFunctions {
         return waitForElement(locator).getText();
     }
 
-    public void selectFromDropDownMenu(By locator, String selectedItem, int index){
-        Select countryDropdown = new Select(wait.until(ExpectedConditions.elementToBeClickable(locator)));
-        if (selectedItem != null)
-            countryDropdown.selectByVisibleText(selectedItem);
-        else
-            countryDropdown.selectByIndex(index);
+    public void selectFromDropDownMenu(By locator, String visibleText) {
+        WebElement element = waitToBeClickable(locator);
+        Select dropdown = new Select(element);
+        dropdown.selectByVisibleText(visibleText);
+    }
+
+    public void selectFromDropDownMenu(By locator, int index) {
+        WebElement element = waitToBeClickable(locator);
+        Select dropdown = new Select(element);
+        dropdown.selectByIndex(index);
     }
 }

@@ -56,8 +56,8 @@ public class CheckoutPage extends HelpFunctions {
         sendText(address, clientAddress);
         sendText(city, clientCity);
 
-        selectFromDropDownMenu(country, clientCountry, 0);
-        selectFromDropDownMenu(region, clientRegion, 0);
+        selectFromDropDownMenu(country, clientCountry);
+        selectFromDropDownMenu(region, clientRegion);
     }
 
     public void clickShippingAdressContinueBtn() {
@@ -69,7 +69,7 @@ public class CheckoutPage extends HelpFunctions {
         String savedShippingAddress = savedAddress.getAttribute("style");
 
         if (savedShippingAddress != null && savedShippingAddress.contains("display: block")) {
-            selectFromDropDownMenu(selectClientAddress, null, 1);
+            selectFromDropDownMenu(selectClientAddress, 1);
         } else {
             // إذا العنصر مخفي، املأ تفاصيل العنوان
             fillShippingAddressDetails("Muhammed", "Henna", "5 Henna st.", "Manzalah", "Egypt", "Aswan");

@@ -1,42 +1,39 @@
 package stepDefinitions.epic8_admin;
+
 import io.cucumber.java.en.*;
 import org.testng.Assert;
 import pages.AdminPage;
 
 import static hooks.Hooks.driver;
+
 public class AdminProductManagementSteps {
 
- AdminPage adminPage;
-// @Given("the admin is logged in successfully")
-// public void the_admin_is_logged_in_successfully() {
-//     // Write code here that turns the phrase above into concrete actions
-//     throw new io.cucumber.java.PendingException();
-// }
-// @When("navigates to the Data tab")
-// public void navigates_to_the_data_tab() {
-//     // Write code here that turns the phrase above into concrete actions
-//     throw new io.cucumber.java.PendingException();
-// }
-// @When("navigates to the SEO tab")
-// public void navigates_to_the_seo_tab() {
-//     // Write code here that turns the phrase above into concrete actions
-//     throw new io.cucumber.java.PendingException();
-// }
+    private AdminPage adminPage;
+
+    public AdminProductManagementSteps() {
+        this.adminPage = new AdminPage(driver);
+    }
+
+    // ===========================
+    // NAVIGATE TO PRODUCTS PAGE
+    // ===========================
     @Given("the admin navigates to the Products page")
     public void the_admin_navigates_to_the_products_page() {
-        adminPage = new AdminPage(driver);
         adminPage.goToProductsPage();
 
         Assert.assertTrue(
-                adminPage.isProductPresent(""), // تحقق إن الجدول ظاهر
+                adminPage.isProductsTableDisplayed(),
                 "Products table is NOT displayed!"
         );
     }
 
+    // ===========================
+    // VIEW PRODUCTS
+    // ===========================
     @When("the admin views the list of products")
     public void the_admin_views_the_list_of_products() {
         Assert.assertTrue(
-                adminPage.isProductPresent(""),
+                adminPage.isProductsTableDisplayed(),
                 "Products table NOT visible!"
         );
     }
@@ -44,26 +41,30 @@ public class AdminProductManagementSteps {
     @Then("the products table should be displayed")
     public void the_products_table_should_be_displayed() {
         Assert.assertTrue(
-                adminPage.isProductPresent(""),
+                adminPage.isProductsTableDisplayed(),
                 "Products table NOT displayed!"
         );
     }
 
-    // ---------- Search Product ----------
+    // ===========================
+    // SEARCH PRODUCT
+    // ===========================
     @When("the admin searches for a product named {string}")
     public void the_admin_searches_for_a_product_named(String productName) {
-       
-        Assert.assertTrue(adminPage.isProductPresent(productName),
-                "Product '" + productName + "' NOT found!");
+        adminPage.filterProductByName(productName);
     }
 
     @Then("the searched product {string} should appear in the results")
     public void the_searched_product_should_appear_in_the_results(String productName) {
-        Assert.assertTrue(adminPage.isProductPresent(productName),
-                "Product '" + productName + "' NOT appearing in search results!");
+        Assert.assertTrue(
+                adminPage.isProductPresent(productName),
+                "Product '" + productName + "' NOT appearing in search results!"
+        );
     }
 
-    // ---------- Add Product ----------
+    // ===========================
+    // ADD PRODUCT
+    // ===========================
     @When("the admin clicks the Add Product button")
     public void the_admin_clicks_the_add_product_button() {
         adminPage.clickAddProduct();
@@ -79,9 +80,19 @@ public class AdminProductManagementSteps {
         adminPage.enterMetaTagTitle(metaTitle);
     }
 
+    @And("navigates to the Data tab")
+    public void navigates_to_the_data_tab() {
+        adminPage.goToDataTab();
+    }
+
     @And("enters model {string}")
     public void enters_model(String model) {
         adminPage.enterModel(model);
+    }
+
+    @And("navigates to the SEO tab")
+    public void navigates_to_the_seo_tab() {
+        adminPage.goToSeoTab();
     }
 
     @And("enters SEO keyword {string}")
@@ -93,18 +104,18 @@ public class AdminProductManagementSteps {
     public void clicks_save() {
         adminPage.clickSaveProduct();
     }
-
-    // @Then("a success message should appear saying {string}")
-    // public void a_success_message_should_appear_saying(String expectedMsg) {
-    //     Assert.assertTrue(adminPage.isSuccessMessageDisplayed(),
-    //             "Success message NOT displayed after product operation!");
-    // }
-
-    // ---------- Edit Product ----------
+    // ===========================
+    // EDIT PRODUCT
+    // ===========================
     @Given("a product named {string} exists")
     public void a_product_named_exists(String productName) {
-        Assert.assertTrue(adminPage.isProductPresent(productName),
-                "Product '" + productName + "' does NOT exist!");
+        adminPage.goToProductsPage();
+        adminPage.filterProductByName(productName);
+
+        Assert.assertTrue(
+                adminPage.isProductPresent(productName),
+                "Product '" + productName + "' does NOT exist!"
+        );
     }
 
     @When("the admin clicks the Edit button for {string}")
@@ -117,29 +128,38 @@ public class AdminProductManagementSteps {
         adminPage.enterModel(model);
     }
 
-    // ---------- Delete Product ----------
+    // ===========================
+    // DELETE PRODUCT
+    // ===========================
     @When("the admin selects the checkbox of {string}")
     public void the_admin_selects_the_checkbox_of(String productName) {
-        adminPage.deleteProduct(productName); // الدالة داخل AdminPage بتحدد وتضغط Delete
+        adminPage.deleteProduct(productName); // الدالة جوه الـ Page بتعمل select + delete + confirm
     }
 
     @And("clicks the Delete button")
     public void clicks_the_delete_button() {
-        // ضمني داخل deleteProduct في AdminPage
+        // ضمني في deleteProduct
     }
 
     @And("confirms the deletion")
     public void confirms_the_deletion() {
-        // ضمني داخل deleteProduct في AdminPage
+        // ضمني في deleteProduct
     }
 
-    // ---------- Enable / Disable Product ----------
+    // ===========================
+    // ENABLE / DISABLE PRODUCT
+    // ===========================
     @When("the admin changes the product status to {string} for {string}")
     public void the_admin_changes_the_product_status_to_for(String status, String productName) {
+        adminPage.goToProductsPage();
+        adminPage.filterProductByName(productName);
         adminPage.clickEditProduct(productName);
         adminPage.changeProductStatus(status);
         adminPage.clickSaveProduct();
     }
 
+    @And("changes the product status to {string}")
+    public void changesTheProductStatusTo(String status) {
+        adminPage.changeProductStatus(status);
+    }
 }
-

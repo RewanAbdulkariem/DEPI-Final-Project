@@ -10,12 +10,12 @@ Feature: Admin Orders Management
     Then the orders table should be displayed
 
   Scenario: Search for an order by order ID
-    When the admin searches for order with ID "12345"
-    Then the searched order with ID "12345" should appear in the results
+    When the admin searches for order with ID "1"
+    Then the searched order with ID "1" should appear in the results
 
   Scenario: Change order status
-    Given an order with ID "12345" exists
-    When the admin opens the order details for "12345"
+    Given an order with ID "1" exists
+    When the admin opens the order details for "1"
     And the admin changes the order status to "Complete"
     And clicks the Save button
     Then a success message should appear saying "Success: You have modified orders!"
@@ -25,5 +25,5 @@ Feature: Admin Orders Management
     Then orders belonging to "John Doe" should be displayed
 
   Scenario: View order details
-    When the admin opens the order details for "12345"
+    When the admin opens the order details for "1"
     Then the order information page should be displayed
