@@ -65,6 +65,7 @@ public class AddressPage extends HelpFunctions {
         }
     }
     public AddressBookPage clickContinue() {
+        waitForElement(continueBtn);
         click(continueBtn);
         return new AddressBookPage(driver);
     }
