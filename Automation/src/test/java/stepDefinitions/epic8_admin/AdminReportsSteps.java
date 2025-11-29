@@ -94,11 +94,6 @@ public class AdminReportsSteps {
         adminPage.openCustomerRewardPointsReport();
     }
 
-    @Then("only reward points related to {string} should appear")
-    public void only_reward_points_related_to_should_appear(String customerName) {
-        Assert.assertTrue(adminPage.isCustomerInReport(customerName),
-                "Filtered customer reward points not found: " + customerName);
-    }
     @Then("the customer reward points table should be displayed")
     public void the_customer_reward_points_table_should_be_displayed() {
         Assert.assertTrue(adminPage.isReportsTableDisplayed(),

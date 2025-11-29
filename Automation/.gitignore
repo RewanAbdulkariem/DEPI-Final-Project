@@ -39,3 +39,5 @@ build/
 
 ### Allure results ##
 allure-results/
+
+src/test/resources/config.properties

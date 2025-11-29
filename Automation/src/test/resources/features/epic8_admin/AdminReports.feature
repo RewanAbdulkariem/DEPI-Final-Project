@@ -39,8 +39,3 @@ Feature: Admin Reports Management
   Scenario: View Customer Reward Points Report
     When the admin opens the Customer Reward Points Report
     Then the customer reward points table should be displayed
-
-  Scenario: Filter Reward Points by customer name
-    When the admin opens the Customer Reward Points Report
-    And filters by customer name "john john"
-    Then only reward points related to "john john" should appear

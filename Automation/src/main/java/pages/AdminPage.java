@@ -339,6 +339,7 @@ public class AdminPage extends HelpFunctions {
 
     public void goToReportsPage() {
         click(reportsMenu);
+        waitForElement(reportsLink);
         click(reportsLink);
         waitForElement(reportTable);
     }
@@ -399,16 +400,18 @@ public class AdminPage extends HelpFunctions {
     }
 
     public void filterReportsByCustomer(String customer) {
+        waitForElement(reportCustomerField);
         click(reportCustomerField);
         sendText(reportCustomerField, customer);
+        waitForElement(reportsFilterBtn);
         click(reportsFilterBtn);
     }
 
     public boolean isCustomerInReport(String customer) {
         waitForElement(reportTable);
-        List<WebElement> rows = driver.findElements(
-                By.cssSelector("#report table.table-bordered tbody tr")
-        );
+        By rowsLocator = By.cssSelector("#report table.table-bordered tbody tr");
+        waitForElement(rowsLocator);
+        List<WebElement> rows = driver.findElements(rowsLocator);
         for (WebElement row : rows) {
             if (row.getText().contains(customer)) {
                 return true;
