@@ -11,6 +11,8 @@ import org.testng.Assert;
 import pages.HomePage;
 import pages.RegisterPage;
 
+import java.util.UUID;
+
 public class RegisterSteps
 {
     private WebDriver driver = Hooks.driver;
@@ -28,10 +30,14 @@ public class RegisterSteps
     }
 
 
-    @When("User enter valid data {string} , {string} , {string} , {string}")
-    public void user_enter_valid_data(String firstname, String lastname, String email, String password)
+    @When("User enter valid data")
+    public void user_enter_valid_data()
     {
-
+        String unique = UUID.randomUUID().toString().substring(0, 8);
+        String firstname ="auto";
+        String lastname= "auto";
+        String email = "test+" + unique + "@mail.com";
+        String password ="123456";
         registerPage.enterFirstName(firstname);
         registerPage.enterLastName(lastname);
         registerPage.enterEmail(email);

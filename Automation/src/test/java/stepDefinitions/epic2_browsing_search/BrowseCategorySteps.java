@@ -1,6 +1,7 @@
 package stepDefinitions.epic2_browsing_search;
 
 import hooks.Hooks;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -38,6 +39,10 @@ public class BrowseCategorySteps
 
         Assert.assertTrue(categoryPage.isDesctopsAppeared(),
                 "Desctops word not displayed");
+    }
+
+    @And("user select a product from the category page")
+    public void userSelectAProductFromTheCategoryPage() {
     }
 }
 

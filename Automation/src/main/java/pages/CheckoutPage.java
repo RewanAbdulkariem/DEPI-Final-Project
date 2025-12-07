@@ -61,8 +61,7 @@ public class CheckoutPage extends HelpFunctions {
     }
 
     public void clickShippingAdressContinueBtn() {
-        WebElement continueBtn = waitToBeClickable(shippingAddressContinue);
-        click(savedClientRadioBtn);
+        click(shippingAddressContinue);
     }
     public void ensureShippingAddressData() {
         WebElement savedAddress = waitForElement(By.id("shipping-existing"));
@@ -128,4 +127,9 @@ public class CheckoutPage extends HelpFunctions {
     public String getCheckoutPageTitle(){
         return getText(checkoutPageTitle);
     }
+    public boolean isShippingSectionCollapsed() {
+        WebElement shippingMethodBtn = waitForElement(shippingMethodSelect);
+        return shippingMethodBtn.isDisplayed();
+    }
+
 }

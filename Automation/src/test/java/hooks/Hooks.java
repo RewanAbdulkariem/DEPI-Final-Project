@@ -80,7 +80,7 @@ public class Hooks {
         home.addProductToCart("iPhone");
 
         home.openCart();
-        home.getCheckout().click();
+        home.clickCheckout();
     }
     @Before(value = "@completeCheckoutPageData", order = 4)
     public void fillChekoutPage(){

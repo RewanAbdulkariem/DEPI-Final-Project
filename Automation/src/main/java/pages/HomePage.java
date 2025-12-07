@@ -73,10 +73,8 @@ public class HomePage extends HelpFunctions {
         click(cartBtn);
     }
 
-    public WebElement getCheckout() {
-        WebElement btn = waitToBeClickable(checkoutBtn);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", btn);
-        return btn;
+    public void clickCheckout() {
+        click(checkoutBtn);
     }
 
 

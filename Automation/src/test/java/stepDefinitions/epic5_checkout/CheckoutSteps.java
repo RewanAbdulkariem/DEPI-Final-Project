@@ -9,8 +9,6 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import pages.*;
 
@@ -36,6 +34,7 @@ public class CheckoutSteps {
 
     }
 
+    @Given("the user Add items to the shopping cart")
     @Given("the user has items in the shopping cart")
     public void user_has_items_in_cart() {
         homePage.addProductToCart("MacBook");
@@ -48,7 +47,7 @@ public class CheckoutSteps {
     }
     @When("the user clicks on the Checkout button")
     public void click_checkout_button() {
-        homePage.getCheckout();
+        homePage.clickCheckout();
     }
 
 
@@ -68,7 +67,7 @@ public class CheckoutSteps {
 
     @Given("the user is on the checkout page")
     public void on_checkout_page() {
-        homePage.getCheckout().click();
+        homePage.clickCheckout();
     }
 
     @When("the user fills in valid shipping and billing information")
@@ -76,7 +75,6 @@ public class CheckoutSteps {
         checkoutPage = new CheckoutPage(driver);
 
         var map = data.asMap(String.class, String.class);
-
         // split name into first/last name
         String fullName = map.get("Name");
         String firstName = fullName.split(" ")[0];
@@ -102,7 +100,8 @@ public class CheckoutSteps {
     @Then("the shipping address section is collapsed")
     public void moved_to_payment_page() {
 
-        Assert.assertTrue(checkoutPage.isRegisteredUserSelected());
+        Assert.assertTrue(checkoutPage.isShippingSectionCollapsed(),
+                "Shipping address section did not collapse / next step not visible");
     }
 
     // ---------------------------------------------------------
@@ -159,7 +158,7 @@ public class CheckoutSteps {
     @Then("the homepage will open")
     public void homepageOpened() {
         // الانتظار حتى ظهور رسالة التأكيد
-        checkoutPage.waitForUrlContains("http://localhost/opencart/index.php?route=common/home&language=en-gb");
+        checkoutPage.waitForUrlContains("route=common/home");
         // الانتظار حتى تظهر الصفحة الرئيسية (اختياري، حسب احتياجك)
         //wait.until(ExpectedConditions.urlToBe("http://localhost/opencart/index.php?route=common/home&language=en-gb")); // أو أي نص من title للصفحة الرئيسية
     }
